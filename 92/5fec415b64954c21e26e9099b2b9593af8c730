@@ -1,0 +1,35 @@
+AI-DECLARATION.md
+  s_62e3583a1443aa::t_7dfe45c5ffbd1f 10
+  s_62e3583a1443aa::t_247df461a4412c 7-9
+  s_62e3583a1443aa::t_eb7be1de021769 11
+  s_62e3583a1443aa::t_b6ed4b8e5dfafd 1-6
+SECURITY.md
+  s_62e3583a1443aa::t_9868e4e236f34e 1-17
+README.md
+  s_62e3583a1443aa::t_af19639156ca8c 1-8
+CODE_OF_CONDUCT.md
+  s_62e3583a1443aa::t_58c8d279931576 3
+  s_62e3583a1443aa::t_0db69a1164e5c8 1-2
+CONTRIBUTING.md
+  s_62e3583a1443aa::t_46193892b3b22a 1-37
+LICENSE
+  s_62e3583a1443aa::t_3ede67dcb0f6bc 1-21
+PULL_REQUEST_TEMPLATE.md
+  s_62e3583a1443aa::t_f68171f216ac91 1-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "925fec415b64954c21e26e9099b2b9593af8c730",
+  "prompts": {},
+  "sessions": {
+    "s_62e3583a1443aa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "17483fce-fbe5-4123-9188-b2d3eecf0a1b",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Prabhu Subramanian <prabhu@appthreat.com>"
+    }
+  }
+}
