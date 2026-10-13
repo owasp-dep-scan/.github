@@ -8,12 +8,11 @@ pip install owasp-depscan
 
 ## Repositories
 
-| Repository                                                   | What it is                                                                                       |
-| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
-| [dep-scan](https://github.com/owasp-dep-scan/dep-scan)       | The dependency scanner and risk audit tool                                                       |
-| [blint](https://github.com/owasp-dep-scan/blint)             | Binary linter that checks executables' security properties and capabilities, and generates SBOMs |
-| [dosai](https://github.com/owasp-dep-scan/dosai)             | Lists namespaces and methods from .NET sources and assemblies                                    |
-| [depscan-bin](https://github.com/owasp-dep-scan/depscan-bin) | Single-binary builds of dep-scan                                                                 |
+| Repository                                             | What it is                                                                                       |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| [dep-scan](https://github.com/owasp-dep-scan/dep-scan) | The dependency scanner and risk audit tool                                                       |
+| [blint](https://github.com/owasp-dep-scan/blint)       | Binary linter that checks executables' security properties and capabilities, and generates SBOMs |
+| [dosai](https://github.com/owasp-dep-scan/dosai)       | Lists namespaces and methods from .NET sources and assemblies                                    |
 
 ## Getting involved
 
