@@ -1,0 +1,23 @@
+project/README.md
+  s_7259a555d05c3e::t_31868a50da2d9b 3-11,21-25
+project/schema.json
+  s_7259a555d05c3e::t_5aa23bc71326cf 235
+workflow-templates/project-sync.yml
+  s_7259a555d05c3e::t_ee8d217e8919f3 7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d0f418cf0aa33082bf6dafe6071e4ae5b3773eef",
+  "prompts": {},
+  "sessions": {
+    "s_7259a555d05c3e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "369df51b-6592-47e6-a54c-85110ab6d9b9",
+        "model": "unknown"
+      },
+      "human_author": "Prabhu Subramanian <prabhu@appthreat.com>"
+    }
+  }
+}
