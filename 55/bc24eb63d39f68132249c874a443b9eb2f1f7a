@@ -1,0 +1,21 @@
+CONTRIBUTING.md
+  s_9e5a3338ab7e3b::t_ccc48c0b2ce557 16-32
+PULL_REQUEST_TEMPLATE.md
+  s_9e5a3338ab7e3b::t_43c0d642149e38 9-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "55bc24eb63d39f68132249c874a443b9eb2f1f7a",
+  "prompts": {},
+  "sessions": {
+    "s_9e5a3338ab7e3b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "434f6aff-cd8e-4383-a216-1c6a9f4be2af",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Prabhu Subramanian <prabhu@appthreat.com>"
+    }
+  }
+}
