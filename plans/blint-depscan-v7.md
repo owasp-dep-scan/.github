@@ -2,7 +2,7 @@
 
 | | |
 | --- | --- |
-| Epic | blint#TBD |
+| Epic | https://github.com/owasp-dep-scan/blint/issues/270 |
 | Owner | @prabhu |
 | AI use | Auto |
 | Corpus | none |
@@ -21,17 +21,25 @@ blint changes that dep-scan v7 needs, released as blint 4.1.0. UEFI firmware sup
 
 ### D1. Default blintdb images that exist
 
+Tracked in [blint#271](https://github.com/owasp-dep-scan/blint/issues/271).
+
 Publish the missing `:v4` images or change the defaults in `blint/config.py` to images that exist, for every platform the defaults cover. Add a CI check that requests the manifest of every default image URL and fails when one is missing, so this cannot recur unnoticed. Done when `blint sbom --use-blintdb` on linux-amd64, linux-amd64 musl, linux-arm64 and darwin-arm64 downloads its default image, and the CI check is required.
 
 ### D2. A stable API for SBOMs, diffs and reviews
+
+Tracked in [blint#272](https://github.com/owasp-dep-scan/blint/issues/272).
 
 Add `blint.api.sbom(...)` and `blint.api.diff(...)` entry points with typed results, accept a list of files or a directory, and give each review a stable id the way findings have `finding_id`. Document which functions are covered by semantic versioning, and keep the global lock out of callers' way where it is not needed. Done when dep-scan's `xbom_lib/blint.py` can be written against `blint.api` alone, the API reference lists every public function, and the tests call only the public API.
 
 ### D3. Memory-safety facts for every ELF
 
+Tracked in [blint#273](https://github.com/owasp-dep-scan/blint/issues/273).
+
 Report sanitizer instrumentation (ASan, HWASan, UBSan, TSan, MSan) and Clang CFI for all ELF files, not only Android ones, and add x86 CET (IBT and shadow stack from `GNU_PROPERTY`), stack-clash protection and the FORTIFY level where it can be determined. Done when test binaries built with and without each option are told apart, and the new facts appear in metadata and in the hardening checks that dep-scan reads.
 
 ### D4. Release blint 4.1.0
+
+Tracked in [blint#274](https://github.com/owasp-dep-scan/blint/issues/274).
 
 Remove the unused `oras` dependency, check the 52 unreleased commits, and release 4.1.0 to PyPI, Homebrew and the container images, with D1 to D3 included. Done when the release is published and dep-scan's foundation plan D7 can pin it.
 

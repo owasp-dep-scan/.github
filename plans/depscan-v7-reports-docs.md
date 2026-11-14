@@ -2,7 +2,7 @@
 
 | | |
 | --- | --- |
-| Epic | dep-scan#TBD |
+| Epic | https://github.com/owasp-dep-scan/dep-scan/issues/574 |
 | Owner | @prabhu |
 | AI use | Auto |
 | Corpus | none |
@@ -19,25 +19,37 @@ The console, HTML and Markdown renderers, `depscan explain` and `depscan query`,
 
 ### D1. Console output
 
+Tracked in [dep-scan#638](https://github.com/owasp-dep-scan/dep-scan/issues/638).
+
 Lead with a summary: counts by category and grade, the coverage panel (what was not assessed and why), and a "fix first" list grouped by remediation action, so one upgrade that resolves twelve findings is one line. Follow with per-category tables, then details on request (`--explain` shows witness paths and evidence). Keep the output within a terminal width and readable without colour. Done when the summary of a scan of the dep-scan repository fits on one screen, and a scan with a missing analyzer shows it in the coverage panel.
 
 ### D2. HTML report
+
+Tracked in [dep-scan#639](https://github.com/owasp-dep-scan/dep-scan/issues/639).
 
 Replace `htmlgen.py` with a renderer that reads the findings file and writes one self-contained HTML file with no external requests: summary, coverage, filters and sorting by category, grade, component and triage state, a detail view per finding with its evidence path, axes, rule and fix, and the policy result. Escape every value that comes from a scanned project. Done when the report of a corpus scan opens offline, passes an HTML validator, and a finding title containing markup is shown as text.
 
 ### D3. Markdown and pull request summaries
 
+Tracked in [dep-scan#640](https://github.com/owasp-dep-scan/dep-scan/issues/640).
+
 `depscan report --format markdown` writes a summary sized for a pull request comment or the GitHub step summary: new and fixed findings against a baseline, the policy result, and links to the full report artifact. Long lists are cut with a count of what was left out. Done when the summary of a corpus scan stays under GitHub's comment size limit and renders correctly on GitHub.
 
 ### D4. CI integrations
+
+Tracked in [dep-scan#641](https://github.com/owasp-dep-scan/dep-scan/issues/641).
 
 Add a GitHub Action (`action.yml` in the dep-scan repository) that runs a pinned dep-scan image, uploads SARIF to code scanning, writes the step summary, stores the scan directory as an artifact and optionally comments on the pull request, using a baseline from the target branch. Add templates or documented snippets for GitLab CI, Azure Pipelines and Jenkins. Done when the action runs in dep-scan's own CI on pull requests, and each snippet has been run once.
 
 ### D5. `explain` and `query`
 
+Tracked in [dep-scan#642](https://github.com/owasp-dep-scan/dep-scan/issues/642).
+
 `depscan explain <finding-id>` prints the evidence, axes, rule, witness path, triage state and fix for one finding from a saved scan, as text, Markdown or JSON. `depscan query <scan-dir>` filters findings by category, grade, severity, purl, CWE, rule, reach and triage state and prints them in any format. Both call the same functions as the MCP server. The 6.x explainer modes become views of `explain`. Done when both commands work on a scan directory copied to another machine without the source tree, and their JSON validates against the published schemas.
 
 ### D6. Documentation
+
+Tracked in [dep-scan#643](https://github.com/owasp-dep-scan/dep-scan/issues/643).
 
 Write the v7 documentation: a migration guide from v6 (vdb 7 and database download, every removed flag and its replacement, Python 3.11, exit codes, and why there are more findings), a new getting-started page, one lesson per workflow (a source repository, a container image, a binary, an Android app, an iOS app, C and C++ memory safety, a supply-chain audit, CI gating with a baseline, and agent use through MCP and the skills), and reference pages generated from the schemas and the command help so they cannot drift. Remove the stale vdb 6 vocabulary and the leftover chatbot text in lesson 02. Done when every lesson runs end to end in a CI job against pinned inputs, and the issues above are closed.
 

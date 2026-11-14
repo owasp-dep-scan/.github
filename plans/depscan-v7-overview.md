@@ -49,22 +49,22 @@ v7 is a clean break from v6: subcommands, vdb 7 and Python 3.11. See [decisions/
 
 | plan | epic | what |
 | --- | --- | --- |
-| [depscan-v7-foundation.md](depscan-v7-foundation.md) | dep-scan#TBD | open the v7 line; vdb 7, cdxgen 13.8 and atom 4, blint 4; `depscan doctor` |
-| [depscan-v7-findings.md](depscan-v7-findings.md) | dep-scan#TBD | finding schema, evidence store, scan pipeline and Python API, scan directory, SARIF, VDR writer |
-| [depscan-v7-cli-policy.md](depscan-v7-cli-policy.md) | dep-scan#TBD | subcommands, configuration, policy gates and exit codes, triage decisions, baselines |
-| [depscan-v7-exploitability.md](depscan-v7-exploitability.md) | dep-scan#TBD | exploitability axes and rule table, reach from atom 4, exploit signals, symbol hints, analyzer uplifts, exposure |
+| [depscan-v7-foundation.md](depscan-v7-foundation.md) | [dep-scan#565](https://github.com/owasp-dep-scan/dep-scan/issues/565) | open the v7 line; vdb 7, cdxgen 13.8 and atom 4, blint 4; `depscan doctor` |
+| [depscan-v7-findings.md](depscan-v7-findings.md) | [dep-scan#566](https://github.com/owasp-dep-scan/dep-scan/issues/566) | finding schema, evidence store, scan pipeline and Python API, scan directory, SARIF, VDR writer |
+| [depscan-v7-cli-policy.md](depscan-v7-cli-policy.md) | [dep-scan#567](https://github.com/owasp-dep-scan/dep-scan/issues/567) | subcommands, configuration, policy gates and exit codes, triage decisions, baselines |
+| [depscan-v7-exploitability.md](depscan-v7-exploitability.md) | [dep-scan#568](https://github.com/owasp-dep-scan/dep-scan/issues/568) | exploitability axes and rule table, reach from atom 4, exploit signals, symbol hints, analyzer uplifts, exposure |
 | [depscan-callsites.md](depscan-callsites.md) | [dep-scan#555](https://github.com/owasp-dep-scan/dep-scan/issues/555) | keep atom's callsites slice and score reachability against real labels (already planned) |
-| [depscan-v7-supply-chain.md](depscan-v7-supply-chain.md) | dep-scan#TBD | audit rule packs, package risk, malware, provenance, CI pipelines, AI supply chain, dependency health and licences |
-| [depscan-v7-memory-safety.md](depscan-v7-memory-safety.md) | dep-scan#TBD | C and C++ memory safety, native code inside packages, unsafe boundaries, Rust/Go/Kotlin findings, binary hardening, correlation with CVEs |
-| [depscan-v7-binaries.md](depscan-v7-binaries.md) | dep-scan#TBD | binaries, installers, drivers, container images, presence corroboration, build diffs, firmware |
-| [blint-depscan-v7.md](blint-depscan-v7.md) | blint#TBD | what blint must fix or add for dep-scan v7 |
+| [depscan-v7-supply-chain.md](depscan-v7-supply-chain.md) | [dep-scan#569](https://github.com/owasp-dep-scan/dep-scan/issues/569) | audit rule packs, package risk, malware, provenance, CI pipelines, AI supply chain, dependency health and licences |
+| [depscan-v7-memory-safety.md](depscan-v7-memory-safety.md) | [dep-scan#570](https://github.com/owasp-dep-scan/dep-scan/issues/570) | C and C++ memory safety, native code inside packages, unsafe boundaries, Rust/Go/Kotlin findings, binary hardening, correlation with CVEs |
+| [depscan-v7-binaries.md](depscan-v7-binaries.md) | [dep-scan#571](https://github.com/owasp-dep-scan/dep-scan/issues/571) | binaries, installers, drivers, container images, presence corroboration, build diffs, firmware |
+| [blint-depscan-v7.md](blint-depscan-v7.md) | [blint#270](https://github.com/owasp-dep-scan/blint/issues/270) | what blint must fix or add for dep-scan v7 |
 | [blint-uefi-firmware-images.md](blint-uefi-firmware-images.md) | [blint#264](https://github.com/owasp-dep-scan/blint/issues/264) | UEFI firmware images in blint (already planned) |
-| [depscan-v7-mobile.md](depscan-v7-mobile.md) | dep-scan#TBD | Android and iOS apps, reachability inside apps, MASVS mapping |
-| [depscan-v7-agents.md](depscan-v7-agents.md) | dep-scan#TBD | agent output contract, MCP server, skills and plugins, remediation plans, evals |
-| [depscan-v7-reports-docs.md](depscan-v7-reports-docs.md) | dep-scan#TBD | console, HTML, Markdown and PR summaries, explain and query, CI integrations, documentation |
-| [depscan-v7-compliance.md](depscan-v7-compliance.md) | dep-scan#TBD | VEX, CSAF 2.1, CRA and CISA benchmarks, signing, input and output formats |
-| [depscan-v7-distribution.md](depscan-v7-distribution.md) | dep-scan#TBD | container images, standalone binaries, offline mode, server mode, dep-scan's own release supply chain |
-| [depscan-v7-quality-release.md](depscan-v7-quality-release.md) | dep-scan#TBD | ground-truth corpus, scorer and gates, false-positive backlog, the 7.0.0 release |
+| [depscan-v7-mobile.md](depscan-v7-mobile.md) | [dep-scan#572](https://github.com/owasp-dep-scan/dep-scan/issues/572) | Android and iOS apps, reachability inside apps, MASVS mapping |
+| [depscan-v7-agents.md](depscan-v7-agents.md) | [dep-scan#573](https://github.com/owasp-dep-scan/dep-scan/issues/573) | agent output contract, MCP server, skills and plugins, remediation plans, evals |
+| [depscan-v7-reports-docs.md](depscan-v7-reports-docs.md) | [dep-scan#574](https://github.com/owasp-dep-scan/dep-scan/issues/574) | console, HTML, Markdown and PR summaries, explain and query, CI integrations, documentation |
+| [depscan-v7-compliance.md](depscan-v7-compliance.md) | [dep-scan#575](https://github.com/owasp-dep-scan/dep-scan/issues/575) | VEX, CSAF 2.1, CRA and CISA benchmarks, signing, input and output formats |
+| [depscan-v7-distribution.md](depscan-v7-distribution.md) | [dep-scan#576](https://github.com/owasp-dep-scan/dep-scan/issues/576) | container images, standalone binaries, offline mode, server mode, dep-scan's own release supply chain |
+| [depscan-v7-quality-release.md](depscan-v7-quality-release.md) | [dep-scan#577](https://github.com/owasp-dep-scan/dep-scan/issues/577) | ground-truth corpus, scorer and gates, false-positive backlog, the 7.0.0 release |
 
 ## Order of work
 
@@ -108,13 +108,14 @@ An implementation agent takes one issue, reads its plan section, works on a bran
 | cdxgen 13.8.0 released with atom 4 | cdxgen 13.8.0 milestone | foundation D5, D6 |
 | blint 4.1.0 with a working default blintdb image | blint epic in [blint-depscan-v7.md](blint-depscan-v7.md) | foundation D7 |
 | `PackageReachability.EdgeIds` that exist in `CallGraph.Edges` | [dosai#129](https://github.com/owasp-dep-scan/dosai/issues/129) | exploitability D5 |
-| KEV and EPSS in vdb | [vulnerability-db#135](https://github.com/AppThreat/vulnerability-db/issues/135) and a new issue | exploitability D3 |
-| flavor and metadata presence in `vdb db status` | new vulnerability-db issue | foundation D4 |
+| a JSON Schema for dosai 5.x reports | [dosai#135](https://github.com/owasp-dep-scan/dosai/issues/135) | exploitability D5 |
+| KEV and EPSS in vdb | [vulnerability-db#135](https://github.com/AppThreat/vulnerability-db/issues/135), [vulnerability-db#309](https://github.com/AppThreat/vulnerability-db/issues/309) | exploitability D3 |
+| flavor and metadata presence in `vdb db status` | [vulnerability-db#308](https://github.com/AppThreat/vulnerability-db/issues/308) | foundation D4 |
 | end-of-life data in vdb | [vulnerability-db#204](https://github.com/AppThreat/vulnerability-db/issues/204) | supply-chain D7 |
-| memory-safety findings with function, purl and fingerprint | new atom issue | memory-safety D1, D7 |
+| memory-safety findings with function, purl and fingerprint | [atom#413](https://github.com/AppThreat/atom/issues/413) | memory-safety D1, D7 |
 | memory-safety in rusi, golem and kosi | [cdxgen-plugins-bin#170](https://github.com/cdxgen/cdxgen-plugins-bin/issues/170), [cdxgen#4777](https://github.com/cdxgen/cdxgen/issues/4777) | memory-safety D4 |
-| kosi's raw report kept for dep-scan | new cdxgen issue | exploitability D6 |
-| SPDX input in `cdx-convert` | new cdxgen issue | compliance D5 |
+| kosi's raw report kept for dep-scan | [cdxgen#4806](https://github.com/cdxgen/cdxgen/issues/4806) | exploitability D6 |
+| SPDX input in `cdx-convert` | [cdxgen#4807](https://github.com/cdxgen/cdxgen/issues/4807) | compliance D5 |
 | callsites as the default occurrence source | [cdxgen#4693](https://github.com/cdxgen/cdxgen/issues/4693) | exploitability D2 |
 | firmware SBOMs | [cdxgen#4620](https://github.com/cdxgen/cdxgen/issues/4620), [blint#264](https://github.com/owasp-dep-scan/blint/issues/264) | binaries D5 |
 | R8 mapping for Android bytecode | [atom#360](https://github.com/AppThreat/atom/issues/360) | mobile D4 |

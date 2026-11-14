@@ -2,7 +2,7 @@
 
 | | |
 | --- | --- |
-| Epic | dep-scan#TBD |
+| Epic | https://github.com/owasp-dep-scan/dep-scan/issues/573 |
 | Owner | @prabhu |
 | AI use | Auto |
 | Corpus | none |
@@ -25,17 +25,25 @@ Mirror cdxgen's packaging so both projects install the same way and can be maint
 
 ### D1. Agent output contract
 
+Tracked in [dep-scan#630](https://github.com/owasp-dep-scan/dep-scan/issues/630).
+
 Make every subcommand usable without a person: `--format json` everywhere, schemas for every JSON output printed by `depscan schema`, logs and progress on stderr only, no prompts, `NO_COLOR` and non-TTY detection, documented exit codes, and file paths in output that are absolute or relative to a stated root. Write `docs/agents.md`, a reference for agent authors. Done when a test runs every subcommand with `--format json` under a non-TTY, validates its stdout against its schema, and checks stderr carries no JSON.
 
 ### D2. MCP server
+
+Tracked in [dep-scan#631](https://github.com/owasp-dep-scan/dep-scan/issues/631).
 
 `depscan mcp` runs an MCP server over stdio. Read tools work on scan directories: `scan_summary`, `list_findings` (filter by category, grade, severity, purl, CWE, rule, reach and triage state), `get_finding`, `explain_finding`, `get_evidence`, `coverage`, `policy_status`, `list_components`, `remediation_plan`, `diff_scans`, `doctor` and `vdb_status`. `run_scan` starts a scan and defaults to a dry run that returns the planned commands; a real run never installs dependencies or runs build scripts unless the server was started with that allowed, and only inside allowed roots (MCP roots or `--allow-dir`). `record_triage` writes a triage decision and is off unless enabled. Responses are capped at 32 KB, with larger results written to a file in the scan directory and returned as a path, matching the paging contract cdxgen's MCP plan sets. Resources expose scan directories and findings by URI, and prompts cover triage and fix planning. Done when the server passes the MCP inspector's checks, every tool has a test, path confinement rejects `..` and symlinks out of the roots, and the server registers in the MCP registry as `io.github.owasp-dep-scan/dep-scan`.
 
 ### D3. Agent plugin package
 
+Tracked in [dep-scan#632](https://github.com/owasp-dep-scan/dep-scan/issues/632).
+
 Create `agent-plugin/` and the root marketplace files, generated from one template with a CI drift check, for Claude Code, Codex, Cursor, Gemini, Copilot CLI, Kiro and opencode. Include the MCP server configuration so installing the plugin makes the tools available, a `SessionStart` hook that warns when `depscan` or its tools are missing or older than the plugin, and an opt-in hook that suggests a re-scan after a lockfile changes. Hooks only warn; they never run a scan. Done when installation is tested in Claude Code and Codex in CI or by a recorded manual run, and the drift check is a required job.
 
 ### D4. Skills
+
+Tracked in [dep-scan#633](https://github.com/owasp-dep-scan/dep-scan/issues/633).
 
 One skill per job, each with frontmatter `name` and a `description` that says what it does and when to use it, a decision table, a link to `reference/safety.md`, and command blocks:
 
@@ -57,17 +65,25 @@ Skills that change state (`depscan-triage` writing decisions, `depscan-vdb` refr
 
 ### D5. Remediation plans
 
+Tracked in [dep-scan#634](https://github.com/owasp-dep-scan/dep-scan/issues/634).
+
 `depscan fix --plan` (and the `remediation_plan` MCP tool) turns findings into upgrade sets: for each direct dependency, the smallest version that fixes all its findings and those of the transitive dependencies it pulls in, whether that crosses a major version, which findings it resolves, and transitive findings that need a parent upgrade or an override. Output is JSON and a table, with the package manager command for each ecosystem shown as text. dep-scan never edits files; an agent or person applies the plan. Done when the plan for a test npm, Python and Maven project resolves every fixable finding when applied by a test harness, and findings with no fix are listed as such.
 
 ### D6. Evals and CI recipes
+
+Tracked in [dep-scan#635](https://github.com/owasp-dep-scan/dep-scan/issues/635).
 
 Add eval cases for every skill in the shape cdxgen uses (`select-*` for when a skill should be chosen, `not-invoked-*` for when it should not, `safety-*` for refusing unsafe actions), run with `claude plugin eval` and recorded in CI where possible. Add CI recipes for running dep-scan through an agent in GitHub Actions (Claude Code action, Codex), with read-only permissions, pinned versions and no installs. Done when the eval suite runs with a threshold and its last result is linked from `docs/agents.md`, and each recipe has been run once on a test repository.
 
 ### D7. Contributor agent documentation
 
+Tracked in [dep-scan#636](https://github.com/owasp-dep-scan/dep-scan/issues/636).
+
 The root `SKILL.md` describes how to review dep-scan's code. Move it to `.agents/skills/depscan-maintainer/SKILL.md` with proper frontmatter, so users installing the plugin get the user skills and contributors get the maintainer skill. Update `AGENTS.md` for the v7 layout (the pipeline, adapters, schemas, scan directory) and the review rules from the overview. Done when the plugin checks pass with both skill sets and `AGENTS.md` names every package and its tests.
 
 ### D8. chennai handoff (Horizon Next)
+
+Tracked in [dep-scan#637](https://github.com/owasp-dep-scan/dep-scan/issues/637).
 
 chennai, the interactive analysis tool built on the same analyzers, plans a symbol-map format (`chennai.symbolmap.v1`), a session file that opens a finding with the analysis already done, and an MCP server. Agree the session contract in both repositories first, then add `depscan explain <finding> --chennai`, which writes a session file from the scan directory, and load chennai symbol maps through the loader from [depscan-v7-exploitability.md](depscan-v7-exploitability.md) D4. Done when chennai opens a dep-scan finding without re-running analysis. This needs a maintainer decision on chennai's schedule before it starts.
 

@@ -2,7 +2,7 @@
 
 | | |
 | --- | --- |
-| Epic | dep-scan#TBD |
+| Epic | https://github.com/owasp-dep-scan/dep-scan/issues/575 |
 | Owner | @prabhu |
 | AI use | Auto |
 | Corpus | none |
@@ -36,23 +36,33 @@ VEX statements follow from evidence by a fixed table, and a triage decision by a
 
 ### D1. VEX from evidence and decisions
 
+Tracked in [dep-scan#644](https://github.com/owasp-dep-scan/dep-scan/issues/644).
+
 Implement the table, the override by triage decisions, and `depscan vex <scan-dir>`, which regenerates VEX from a saved scan when decisions change, without re-scanning. Write CycloneDX VEX (standalone and inside the VDR) and OpenVEX. Done when each table row has a test, a scan with an unassessed reach axis produces `in_triage` and never `not_affected`, and the CycloneDX output validates with `cdx-validate`.
 
 ### D2. CSAF 2.1
+
+Tracked in [dep-scan#645](https://github.com/owasp-dep-scan/dep-scan/issues/645).
 
 Extend the existing CSAF generator (`analysis_lib/vex/`): build `product_tree` from the BOM's dependency graph so relationships survive, set `product_status` from the VEX result, put the exploitability grade and rule in `threats`, and take `remediations` from the fix plan. Keep the offline schema and section 6.1 checks. Remove the stale `csafdemo.yml` workflow or bring it up to date. Done when the CSAF output of a corpus scan passes the existing validator, and a triaged finding shows the decision and its author.
 
 ### D3. `depscan compliance`
 
+Tracked in [dep-scan#646](https://github.com/owasp-dep-scan/dep-scan/issues/646).
+
 Run `cdx-validate -b cisa,cra,scvs -r json` on the input BOM and on dep-scan's VDR, and add the parts that need vulnerability data: the record of exploitable vulnerabilities and how each was handled (from findings and triage decisions), and actively exploited vulnerabilities (KEV, when vdb has it). Write JSON, Markdown and SARIF, each opening with a sentence saying the output is evidence for an assessment, not a certificate. Done when a corpus scan produces a compliance report with all three benchmarks and both vulnerability sections, and missing KEV data is shown as not assessed.
 
 ### D4. Signing and verification
+
+Tracked in [dep-scan#647](https://github.com/owasp-dep-scan/dep-scan/issues/647).
 
 Verify signatures on input BOMs with `cdx-verify --public-key` when a key is configured, and report an invalid or missing required signature as a `supply-chain` finding. Sign the VDR and VEX with `cdx-sign` (JSF for CycloneDX 1.x) when a key is configured, adding to cdxgen's signature on the BOM so a pipeline can show which stage signed what. Keys come from files or environment variables, never from the command line. Done when a test pipeline signs a BOM with cdxgen, dep-scan verifies it and counter-signs the VDR, and `cdx-verify` accepts the result.
 
 ### D5. Input and output formats
 
-Accept SPDX 2.3 and 3.0 documents as input ([dep-scan#59](https://github.com/owasp-dep-scan/dep-scan/issues/59)). `cdx-convert` converts CycloneDX to SPDX but not the other way, so this needs a new cdxgen issue for SPDX import, which dep-scan then calls. Write SPDX through `cdx-convert`. Read CycloneDX 2.0 documents behind an option once the schema is ratified and cdxgen decides on its default ([cdxgen#4594](https://github.com/cdxgen/cdxgen/issues/4594)); keep 1.7 as dep-scan's default output (Horizon Next for the 2.0 part). Done when an SPDX 2.3 and an SPDX 3.0 document scan to the same findings as the CycloneDX BOM they were made from.
+Tracked in [dep-scan#648](https://github.com/owasp-dep-scan/dep-scan/issues/648).
+
+Accept SPDX 2.3 and 3.0 documents as input ([dep-scan#59](https://github.com/owasp-dep-scan/dep-scan/issues/59)). `cdx-convert` converts CycloneDX to SPDX but not the other way, so this needs SPDX import in cdxgen ([cdxgen#4807](https://github.com/cdxgen/cdxgen/issues/4807)), which dep-scan then calls. Write SPDX through `cdx-convert`. Read CycloneDX 2.0 documents behind an option once the schema is ratified and cdxgen decides on its default ([cdxgen#4594](https://github.com/cdxgen/cdxgen/issues/4594)); keep 1.7 as dep-scan's default output (Horizon Next for the 2.0 part). Done when an SPDX 2.3 and an SPDX 3.0 document scan to the same findings as the CycloneDX BOM they were made from.
 
 ## Risks and open questions
 

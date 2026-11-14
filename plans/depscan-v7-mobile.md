@@ -2,7 +2,7 @@
 
 | | |
 | --- | --- |
-| Epic | dep-scan#TBD |
+| Epic | https://github.com/owasp-dep-scan/dep-scan/issues/572 |
 | Owner | @prabhu |
 | AI use | Auto |
 | Corpus | `depscan-v7.corpus.json` (open-source Android and iOS apps) |
@@ -21,21 +21,31 @@ Scanning Android and iOS apps as a target kind, the findings and report sections
 
 ### D1. App target and mobile profile
 
+Tracked in [dep-scan#625](https://github.com/owasp-dep-scan/dep-scan/issues/625).
+
 `depscan scan app.apk` (and `.aab`, `.apkm`, `.apks`, `.xapk`, `.ipa`) detects the app, chooses the `mobile` profile and runs blint's deep analysis (DEX parsing and disassembly), cdxgen's inventory of the app, and atom's APK callsites with `--app-prefix` derived from the manifest package unless the user sets it. The help text says deep mode is slow and needs the full install. Done when an open-source Android app and an open-source iOS app from the corpus produce a BOM, findings and a mobile report section, and a missing Android SDK or Apple tool shows as not assessed.
 
 ### D2. Android findings
+
+Tracked in [dep-scan#626](https://github.com/owasp-dep-scan/dep-scan/issues/626).
 
 Report the bundled SDK and tracker inventory, blint's Dalvik behavioural reviews, Android hardening of each native library per ABI (including the 16 KB page alignment Google Play requires for apps targeting Android 15 and later), advisories in native libraries joined to the DEX code that loads them, and exported components and deep links as exposure (from kosi or blint's manifest data). Done when a corpus app with a known vulnerable bundled native library, a tracker SDK and an exported activity reports all three, and the native library finding names the ABI.
 
 ### D3. iOS findings
 
+Tracked in [dep-scan#627](https://github.com/owasp-dep-scan/dep-scan/issues/627).
+
 Report privacy manifest posture (missing `PrivacyInfo.xcprivacy`, undeclared required-reason API use), App Transport Security exceptions, entitlements, fingerprinting and cross-app tracking reviews, and advisories in embedded frameworks (for example a bundled OpenSSL or SQLite). Done when a corpus IPA with an embedded framework that has an advisory and an ATS exception reports both, and an app without a privacy manifest is flagged.
 
 ### D4. Reachability inside apps
 
+Tracked in [dep-scan#628](https://github.com/owasp-dep-scan/dep-scan/issues/628).
+
 Use atom's APK callsites and reachables to decide whether a vulnerable SDK or library is called from the app's own code, and from which component. Obfuscated apps limit this: with an R8 or ProGuard `mapping.txt` supplied, names can be restored once atom supports it ([atom#360](https://github.com/AppThreat/atom/issues/360)); without one, calls into obfuscated code are not assessed. atom's planned move to SootUp for bytecode will change method names and improve lambda handling, so the adapter must not depend on lambda name shapes. Done when a vulnerable SDK method called from an exported component grades higher than the same SDK linked but unused, on a corpus app.
 
 ### D5. MASVS mapping
+
+Tracked in [dep-scan#629](https://github.com/owasp-dep-scan/dep-scan/issues/629).
 
 Map each mobile finding to the OWASP MASVS v2 control groups it bears on (storage, crypto, auth, network, platform, code, resilience, privacy), and add a report view grouped by those controls. The mapping lives in a data file with a schema, so it can be reviewed and corrected. Done when every blint mobile rule dep-scan reports has a mapping or an explicit "no MASVS control", and the report view shows the grouping.
 

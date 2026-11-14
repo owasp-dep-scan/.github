@@ -2,7 +2,7 @@
 
 | | |
 | --- | --- |
-| Epic | dep-scan#TBD |
+| Epic | https://github.com/owasp-dep-scan/dep-scan/issues/571 |
 | Owner | @prabhu |
 | AI use | Auto |
 | Corpus | `depscan-v7.corpus.json` (binaries, images and one firmware image) |
@@ -21,21 +21,31 @@ dep-scan's use of blint 4 for binaries, installers, drivers and images, binary e
 
 ### D1. Binary and installer analysis
 
+Tracked in [dep-scan#620](https://github.com/owasp-dep-scan/dep-scan/issues/620).
+
 `depscan scan <binary|installer|directory>` with `--checks binary` runs blint's analysis through its Python API and reports blint's findings and reviews as `binary-hardening`, `supply-chain` or `code` findings by rule, with blint's coverage mapped to not assessed. Known vulnerable Windows drivers become findings with high pressure; packed binaries, unsigned or badly signed binaries and suspicious capabilities are reported by blint's rules ([dep-scan#106](https://github.com/owasp-dep-scan/dep-scan/issues/106) for executables in images). Installers (MSI, MSIX, ClickOnce, nupkg) are unpacked by blint and their contents scanned. Done when a test set of an ELF, a PE driver from the loldrivers list, a Mach-O binary and an MSI produces findings from each with blint's rule ids, and blint's coverage gaps show as not assessed.
 
 ### D2. Container images and root filesystems
+
+Tracked in [dep-scan#621](https://github.com/owasp-dep-scan/dep-scan/issues/621).
 
 For an image or rootfs, combine cdxgen's OS package inventory with blint's analysis of executables not owned by any package: Go binaries (from build info), Rust binaries (cargo-auditable data), embedded runtimes and standalone executables ([dep-scan#314](https://github.com/owasp-dep-scan/dep-scan/issues/314)). Run blint's link-closure resolution against the unpacked image (`BLINT_RESOLVE_LINK_CLOSURE` with `BLINT_LINK_ROOT` set to the image root, never the scan host), so each shared library is known to be loaded by some executable or not. Re-check the OS false-positive reports ([dep-scan#239](https://github.com/owasp-dep-scan/dep-scan/issues/239)) under vdb 7's distro feeds. Done when an image with an unpackaged Go binary reports its modules and advisories, and the link closure of a distroless image lists which libraries are loaded.
 
 ### D3. Presence corroboration from binaries
 
+Tracked in [dep-scan#622](https://github.com/owasp-dep-scan/dep-scan/issues/622).
+
 For components found in a package database or a source manifest, look for corroborating binary evidence: an exported or imported symbol, an exact or similarity blintdb match, the library in a link closure, or a vendored-source banner. Map the result to the Presence axis: an exact symbol or blintdb match is `proven`, a similarity match or banner is `likely`, a library that is installed but loaded by nothing is `unlikely` with that evidence, and an unavailable blintdb layer is `not_assessed`. Done when an image where a vulnerable library is installed but unused grades lower than one where it is linked, and the explanation cites the link-closure evidence.
 
 ### D4. Build-to-build binary diff
 
+Tracked in [dep-scan#623](https://github.com/owasp-dep-scan/dep-scan/issues/623).
+
 `depscan diff` on two binaries or two images runs blint's diff (metadata, hardening regressions, findings paired across rebuilds, functions when both sides were disassembled, and the Windows signer, driver, IOCTL and P/Invoke layer) and reports regressions as findings a release gate can select: a hardening flag lost, a new capability, a new dependency, a signer change. Done when two builds of a test program, one with RELRO turned off, produce a diff that fails a policy selecting hardening regressions.
 
 ### D5. Firmware images (Horizon Next)
+
+Tracked in [dep-scan#624](https://github.com/owasp-dep-scan/dep-scan/issues/624).
 
 Read firmware BOMs from cdxgen (`-t firmware`, planned for 13.9.0 with the romi helper, [cdxgen#4620](https://github.com/cdxgen/cdxgen/issues/4620)) and blint's UEFI module components ([blint#264](https://github.com/owasp-dep-scan/blint/issues/264)). Match EDK II modules by the identifiers cdxgen's firmware audit plan defines (`pkg:github/tianocore/edk2@<tag>#<Package>/<Module>` and the EDK II CPE), report cdxgen's firmware rules (network boot stack present, PKfail keys, stale dbx, debug builds, unsigned capsules), and grade them. EDK II advisories are repository security advisories that vdb may not ingest; check and open a vulnerability-db issue if needed. The acceptance case shared with cdxgen is a scan of an Ubuntu `QEMU_EFI.fd` that reports CVE-2026-97631 and the PixieFail CVEs against `NetworkPkg/UefiPxeBcDxe`. Done when that case passes.
 
