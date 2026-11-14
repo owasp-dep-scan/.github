@@ -148,6 +148,26 @@
         {
           "name": "Documentation",
           "color": "GRAY"
+        },
+        {
+          "name": "Reachability",
+          "color": "YELLOW"
+        },
+        {
+          "name": "Memory safety",
+          "color": "RED"
+        },
+        {
+          "name": "Supply chain",
+          "color": "ORANGE"
+        },
+        {
+          "name": "Agents",
+          "color": "PURPLE"
+        },
+        {
+          "name": "Compliance",
+          "color": "GREEN"
         }
       ]
     }
@@ -174,7 +194,12 @@
         "PE": "Binary formats",
         "wasm": "Binary formats",
         "security": "Security",
-        "documentation": "Documentation"
+        "documentation": "Documentation",
+        "reachability": "Reachability",
+        "memory-safety": "Memory safety",
+        "supply-chain": "Supply chain",
+        "agents": "Agents",
+        "compliance": "Compliance"
       }
     }
   ],
