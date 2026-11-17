@@ -34,15 +34,16 @@ v7 is a clean break from v6: subcommands, vdb 7 and Python 3.11. See [decisions/
 
 ## Where things stand
 
-| Component | dep-scan 6.3.2 uses | Current upstream (2026-11-14) |
+| Component | dep-scan 6.3.2 uses | Current upstream (2026-11-17) |
 | --- | --- | --- |
-| vulnerability-db | 6.7.7 | 7.0.5 |
-| cdxgen | 12.9.x (`@cyclonedx/cdxgen`), atom 2.5.6 | 13.7.0 released; 13.8.0 on master with atom 4.0.2 and atom-parsetools 2.0.0 |
+| vulnerability-db | 6.7.7 | 7.0.6 |
+| cdxgen | 12.9.x (`@cyclonedx/cdxgen`), atom 2.5.6 | 13.8.0, with atom 4.0.2 and atom-parsetools 2.0.0 |
 | cdxgen-plugins-bin | through cdxgen 12 | 4.3.1 (golem, rusi, kosi, dosai 5.0.0, trustinspector) |
 | atom-tools | ~=0.9.1 | 1.0.5 |
-| blint | ~=3.2.3 | 4.0.1 tagged, 4.0.2 on main |
+| blint | ~=3.2.3 | 4.0.1 |
 | dosai | report schema 4.x and 5.x | 5.0.0, report schema 5.1.0 |
-| chen / atom | not called directly | 4.0.1 / 4.0.2, with `atom memory-safety` |
+| chen / atom | not called directly | 4.0.1 / 4.0.2, with `atom memory-safety` (37 rules) |
+| edga | not used | 0.2.0 (EDG front end for atom's C and C++ analysis) |
 | Python | >=3.10 (end of life since October 2026) | 3.11 to 3.14 supported |
 
 ## The plans
@@ -71,15 +72,15 @@ v7 is a clean break from v6: subcommands, vdb 7 and Python 3.11. See [decisions/
 ```
 wave 1  foundation D1-D3, D5 ‖ findings D1 ‖ blint D1, D4
 wave 2  foundation D4, D6-D8 ‖ findings D2-D4 ‖ cli-policy D1-D2 ‖ agents D1 ‖ distribution D1
-wave 3  findings D5-D6 ‖ cli-policy D3-D5 ‖ exploitability ‖ supply-chain ‖ memory-safety D1, D3, D5
-        ‖ binaries D1-D4 ‖ mobile ‖ compliance D1-D4 ‖ callsites (#555)
-wave 4  agents D2-D7 ‖ reports-docs ‖ quality D1-D3 ‖ distribution D2-D5 ‖ memory-safety D2, D6, D7
+wave 3  agents D2-D4 ‖ findings D5-D6 ‖ cli-policy D3-D5 ‖ exploitability ‖ supply-chain
+        ‖ memory-safety D1, D3, D5 ‖ binaries D1-D4 ‖ mobile ‖ compliance D1-D4 ‖ callsites (#555)
+wave 4  agents D5-D7 ‖ reports-docs ‖ quality D1-D3 ‖ distribution D2-D5 ‖ memory-safety D2, D6, D7
 wave 5  quality D4: release candidates and 7.0.0
 next    memory-safety D4 (Rust, Go, Kotlin findings), binaries D5 (firmware), compliance D5 (CycloneDX 2.0),
         agents D8 (chennai handoff)
 ```
 
-The finding schema (findings D1) and the scan pipeline (findings D3) come first because every later deliverable writes findings into them. Work in the same wave can run in parallel. The "next" row depends on upstream releases that are planned but not shipped: memory-safety findings in rusi, golem and kosi (cdxgen/cdxgen-plugins-bin#170, cdxgen/cdxgen#4777), firmware SBOMs in cdxgen 13.9 with romi, the ratified CycloneDX 2.0 schema, and chennai's symbol maps. They stay in the milestone with Horizon set to Next, and the release does not wait for them.
+The finding schema (findings D1) and the scan pipeline (findings D3) come first because every later deliverable writes findings into them. The agent output contract (agents D1), the MCP server (agents D2) and the first skills (agents D3, D4) follow the scan directory (findings D4) and the subcommands (cli-policy D1) directly, so agents can use each later deliverable as soon as it lands. Memory-safety D1 needs only the finding schema and `depscan doctor`, so it can start in wave 3 beside them. Work in the same wave can run in parallel. The "next" row depends on upstream releases that are planned but not shipped: memory-safety findings in rusi, golem and kosi (cdxgen/cdxgen-plugins-bin#170, cdxgen/cdxgen#4777), firmware SBOMs in cdxgen 13.9 with romi, the ratified CycloneDX 2.0 schema, and chennai's symbol maps. They stay in the milestone with Horizon set to Next, and the release does not wait for them.
 
 ## Horizon and priority
 
@@ -120,6 +121,26 @@ An implementation agent takes one issue, reads its plan section, works on a bran
 | firmware SBOMs | [cdxgen#4620](https://github.com/cdxgen/cdxgen/issues/4620), [blint#264](https://github.com/owasp-dep-scan/blint/issues/264) | binaries D5 |
 | R8 mapping for Android bytecode | [atom#360](https://github.com/AppThreat/atom/issues/360) | mobile D4 |
 | MCP paging contract shared with cdxgen | [cdxgen#4656](https://github.com/cdxgen/cdxgen/issues/4656) | agents D2 |
+| C memory safety across allocation styles and library profiles | [chen#328](https://github.com/AppThreat/chen/issues/328), [chen#325](https://github.com/AppThreat/chen/issues/325) | memory-safety D1, D7 |
+| memory-safety findings in system headers with a correct path | [chen#337](https://github.com/AppThreat/chen/issues/337) | memory-safety D1 |
+| C and C++ front-end contexts and template identity | [chen#335](https://github.com/AppThreat/chen/issues/335), [atom#415](https://github.com/AppThreat/atom/issues/415) | memory-safety D1, D7 |
+| memory-safety precision and recall measured per allocation style | [atom#414](https://github.com/AppThreat/atom/issues/414) | memory-safety D7 |
+| shared memory-safety finding contract and scorer for the plugins | [cdxgen-plugins-bin#171](https://github.com/cdxgen/cdxgen-plugins-bin/issues/171) | memory-safety D4, D7 |
+
+## Keeping the plans current
+
+cdxgen, atom, chen, the cdxgen plugins, vulnerability-db, blint and dosai change every week, and dep-scan v7 is built on them. The plans are reviewed once a week, and the review is a pull request to this repository:
+
+1. Update "Where things stand" from the latest releases of each component.
+2. Read the issues and pull requests opened or closed that week in cdxgen, cdxgen-plugins-bin, AppThreat (atom, chen, vulnerability-db, atom-tools, edga, chennai) and owasp-dep-scan (blint, dosai), and the changes to cdxgen's `agent-plugin/`. For each new tool, option, output format or agent feature, decide whether a plan section uses it, needs to wait for it, or can ignore it.
+3. Edit the affected plan sections and the "Upstream dependencies" table. A new deliverable gets a section in its plan and a sub-issue of that plan's epic in the milestone; a changed deliverable gets its issue body updated to match.
+4. Add a dated entry to "Changes to the plans" below that names what changed and why.
+
+Plans describe the work, not its progress. Which tasks are done is tracked in the issues and the project board.
+
+## Changes to the plans
+
+- **2026-11-17.** Memory safety: the atom 4 options dep-scan must pass (`--no-build-tools`, `--parse-report`, `--bom-file`, `--memory-api-config`), findings in system headers and template instances, and a table of the chen, atom and plugins issues opened after the plan. Agents: cdxgen's current plugin (hooks, `userConfig`, evals, the `bom-reviewer` agent), shared MCP schemas and tool naming with cdxgen, plugin directory submissions, a `depscan-coverage-loop` skill and the Copilot cloud agent recipe. Order of work: agents D2 to D4 move from wave 4 to wave 3. "Where things stand" updated to 2026-11-17.
 
 ## Non-goals
 
