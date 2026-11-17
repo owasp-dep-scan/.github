@@ -1,0 +1,24 @@
+plans/depscan-v7-memory-safety.md
+  s_7318da1b9edd46::t_0f8df3f86ffe0b 24-25,34-35,72-87,92
+plans/depscan-v7-agents.md
+  s_7318da1b9edd46::t_10c73cc1240eb4 63
+  s_7318da1b9edd46::t_ac0c5407727b1c 14,36,42,65,77
+plans/depscan-v7-overview.md
+  s_7318da1b9edd46::t_10c73cc1240eb4 37,39-40,43,45-46,75-77,83,124-143
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1e5bd4a46384c561d6409e32e173f84e3e17d0a8",
+  "prompts": {},
+  "sessions": {
+    "s_7318da1b9edd46": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ec4cd02e-10f8-411b-a4d1-40ff6af5049b",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Prabhu Subramanian <prabhu@appthreat.com>"
+    }
+  }
+}
