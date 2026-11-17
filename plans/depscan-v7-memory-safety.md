@@ -21,6 +21,8 @@ Running and ingesting memory-safety analysis for C and C++ source, for native co
 
 `atom memory-safety` refuses to reuse an atom built by another command, so dep-scan runs it as a separate step with its own atom file, under `ATOM_TIMEOUT`, when `--checks memory-safety` is on and the project has C or C++ sources. cdxgen does not run it, by design, so dep-scan calls atom directly, with an argument list built in code. edga is used when `depscan doctor` finds it (atom's container images include it). A compilation database makes results much better; dep-scan finds an existing `compile_commands.json`, can export one from CMake when the user allows a configure step, and otherwise uses atom's `--auto-defines`.
 
+The scanned project is untrusted, so the argument list always includes `--no-build-tools` and never `--project-config`, which would read an `atom.json` from the project. dep-scan passes `--parse-report` and turns every file atom left out or only partly read into a not-assessed coverage entry for that file, so a project atom could not parse is never reported as free of defects. It passes the scan's BOM with `--bom-file`, so atom marks vendored directories (`cdx:vendored:path`) as external and attribution starts from atom's own view of the tree, and `--external-paths` when the user names more vendored paths. In-house allocation and copy wrappers are declared in a `memory-apis.json` file that the user points to from `depscan.toml`; dep-scan passes it with `--memory-api-config` and records its digest in the scan manifest. `--auto-defines` changes what is analysed, so the manifest records the defines atom chose.
+
 ## Deliverables
 
 ### D1. C and C++ memory-safety scan
@@ -28,6 +30,8 @@ Running and ingesting memory-safety analysis for C and C++ source, for native co
 Tracked in [dep-scan#613](https://github.com/owasp-dep-scan/dep-scan/issues/613).
 
 Run `atom memory-safety -l c|cpp --format json` (and SARIF for pass-through) with `--c-frontend edg-fallback` when edga is present, `--compile-commands` when a compilation database exists, and `--min-confidence medium` by default (configurable). Map each finding into a `memory-safety` finding: rule id, CWE, confidence, severity, message, and the flow as an evidence path. Attribute each file to a component: files under vendored paths that cdxgen marks (`cdx:vendored:path`, `cdx:cmake:sourceDir`) belong to that component's purl, everything else to the application. A timeout or a file atom could not parse makes the affected files not assessed. Done when the C and C++ fixtures in the corpus produce their labelled findings at the default confidence, the negative controls produce none, and a vendored library's findings carry its purl.
+
+Findings that atom reports inside system or toolchain headers ([chen#337](https://github.com/AppThreat/chen/issues/337)) belong to neither the application nor a component. They are kept with a `toolchain` attribution and left out of the application's counts and gates until chen fixes their paths. A finding in a C++ template instance carries the template's identity, so the copies atom reports for each instantiation become one finding with several locations ([atom#415](https://github.com/AppThreat/atom/issues/415)).
 
 ### D2. Native code inside dependencies
 
@@ -65,10 +69,27 @@ Tracked in [dep-scan#619](https://github.com/owasp-dep-scan/dep-scan/issues/619)
 
 atom's JSON has no fingerprint, function or purl yet; [atom#413](https://github.com/AppThreat/atom/issues/413) asks for them, aligned with the plugins contract. Until it ships, dep-scan computes a line-free fingerprint from the rule, relative file, enclosing function (from the flow) and API names. Add a small C and C++ fixture set to dep-scan's tests, with labelled findings and negative controls, whose licences allow redistribution, and run it in CI: any finding on a negative control fails the run, and recall below the recorded floor fails it too. Done when the CI job runs on every pull request that touches the memory-safety code, and a baseline built from fingerprints survives a reformatting commit.
 
+## Upstream work that changes this plan
+
+These issues were opened after the plan was written. Each one changes what dep-scan receives from atom or the plugins, so the deliverable it names is checked against the issue's state before it starts.
+
+| Upstream | What changes | Affects |
+| --- | --- | --- |
+| [chen#328](https://github.com/AppThreat/chen/issues/328), tasks [chen#320](https://github.com/AppThreat/chen/issues/320) to [chen#327](https://github.com/AppThreat/chen/issues/327) | allocation styles: scope cleanup, regions owned by a pool, reference counting and header-prefixed allocator families, with fewer false allocation-state findings | D1 mapping, D7 floors |
+| [chen#325](https://github.com/AppThreat/chen/issues/325) | library profiles selected by the headers a file includes | D1: record the profiles atom chose in the evidence, and let `depscan.toml` name extra ones once atom accepts them |
+| [chen#337](https://github.com/AppThreat/chen/issues/337) | findings reported in system headers with a broken path | D1 attribution |
+| [chen#335](https://github.com/AppThreat/chen/issues/335) | C and C++ front-end contexts: template identity, toolchains and build contexts | D1 (how the compilation database and toolchain reach atom), D7 fingerprint |
+| [atom#415](https://github.com/AppThreat/atom/issues/415) | findings and slice entries grouped by template instance | D1, D7 fingerprint |
+| [atom#414](https://github.com/AppThreat/atom/issues/414) | allocation-style documentation and the final precision and recall measurement | D7 corpus floors start from atom's published numbers |
+| [atom#413](https://github.com/AppThreat/atom/issues/413) | function, purl and a line-free fingerprint per finding, and published schemas | D1, D7: drop dep-scan's own fingerprint once atom's is released |
+| [cdxgen-plugins-bin#171](https://github.com/cdxgen/cdxgen-plugins-bin/issues/171) | the shared finding contract, SARIF golden files and the scorer for rusi, golem and kosi | D4 adapters; D7 reuses the scorer instead of writing a second one |
+| [cdxgen-plugins-bin#173](https://github.com/cdxgen/cdxgen-plugins-bin/issues/173), [#179](https://github.com/cdxgen/cdxgen-plugins-bin/issues/179), [#185](https://github.com/cdxgen/cdxgen-plugins-bin/issues/185) | the first memory-safety findings and SARIF from rusi, golem and kosi | D4 can start when any one of them is released |
+
 ## Risks and open questions
 
 - The low-confidence rules (null dereference, integer length overflow, leaks) are noisy on large trees. The default stays at medium; users who want more choose it.
 - A second atom build doubles the analysis cost for C and C++ projects. If atom gains a way to emit memory-safety findings from the same build as usages and reachables, dep-scan should use it; [atom#413](https://github.com/AppThreat/atom/issues/413) asks for that too.
+- New rule families in chen change the number of findings between atom releases. The scan manifest records the atom and chen versions, and baselines compare fingerprints, so an upgrade shows as new findings with the producer version that found them rather than as a regression.
 - D2 depends on installed dependency trees. A scan without installs reports native dependencies as not assessed rather than clean.
 
 ## Outcome
