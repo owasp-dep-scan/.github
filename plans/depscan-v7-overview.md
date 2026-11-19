@@ -120,7 +120,6 @@ An implementation agent takes one issue, reads its plan section, works on a bran
 | callsites as the default occurrence source | [cdxgen#4693](https://github.com/cdxgen/cdxgen/issues/4693) | exploitability D2 |
 | firmware SBOMs | [cdxgen#4620](https://github.com/cdxgen/cdxgen/issues/4620), [blint#264](https://github.com/owasp-dep-scan/blint/issues/264) | binaries D5 |
 | R8 mapping for Android bytecode | [atom#360](https://github.com/AppThreat/atom/issues/360) | mobile D4 |
-| MCP paging contract shared with cdxgen | [cdxgen#4656](https://github.com/cdxgen/cdxgen/issues/4656) | agents D2 |
 | C memory safety across allocation styles and library profiles | [chen#328](https://github.com/AppThreat/chen/issues/328), [chen#325](https://github.com/AppThreat/chen/issues/325) | memory-safety D1, D7 |
 | memory-safety findings in system headers with a correct path | [chen#337](https://github.com/AppThreat/chen/issues/337) | memory-safety D1 |
 | C and C++ front-end contexts and template identity | [chen#335](https://github.com/AppThreat/chen/issues/335), [atom#415](https://github.com/AppThreat/atom/issues/415) | memory-safety D1, D7 |
@@ -140,6 +139,7 @@ Plans describe the work, not its progress. Which tasks are done is tracked in th
 
 ## Changes to the plans
 
+- **2026-11-19.** cdxgen will not get an MCP server (maintainer decision). The agents plan no longer models `depscan mcp` on one, and the overview no longer lists cdxgen#4656 as an upstream dependency; `depscan mcp` runs cdxgen as a command-line tool.
 - **2026-11-17.** Memory safety: the atom 4 options dep-scan must pass (`--no-build-tools`, `--parse-report`, `--bom-file`, `--memory-api-config`), findings in system headers and template instances, and a table of the chen, atom and plugins issues opened after the plan. Agents: cdxgen's current plugin (hooks, `userConfig`, evals, the `bom-reviewer` agent), shared MCP schemas and tool naming with cdxgen, plugin directory submissions, a `depscan-coverage-loop` skill and the Copilot cloud agent recipe. Order of work: agents D2 to D4 move from wave 4 to wave 3. "Where things stand" updated to 2026-11-17.
 
 ## Non-goals
