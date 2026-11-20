@@ -1,0 +1,16 @@
+plans/depscan-v7-agents.md
+  h_0926447d100ad2 14,36
+plans/depscan-v7-overview.md
+  h_0926447d100ad2 142
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "95a1744c9f632801ac65610666a2c254073b30b2",
+  "prompts": {},
+  "humans": {
+    "h_0926447d100ad2": {
+      "author": "Prabhu Subramanian <prabhu@appthreat.com>"
+    }
+  }
+}
