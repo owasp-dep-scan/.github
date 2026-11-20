@@ -50,7 +50,7 @@ Extend the existing CSAF generator (`analysis_lib/vex/`): build `product_tree` f
 
 Tracked in [dep-scan#646](https://github.com/owasp-dep-scan/dep-scan/issues/646).
 
-Run `cdx-validate -b cisa,cra,scvs -r json` on the input BOM and on dep-scan's VDR, and add the parts that need vulnerability data: the record of exploitable vulnerabilities and how each was handled (from findings and triage decisions), and actively exploited vulnerabilities (KEV, when vdb has it). Write JSON, Markdown and SARIF, each opening with a sentence saying the output is evidence for an assessment, not a certificate. Done when a corpus scan produces a compliance report with all three benchmarks and both vulnerability sections, and missing KEV data is shown as not assessed.
+Run `cdx-validate -b cisa,cra,scvs -r json` on the input BOM and on dep-scan's VDR, and add the part that needs vulnerability data: the record of exploitable vulnerabilities and how each was handled (from findings and triage decisions). Write JSON, Markdown and SARIF, each opening with a sentence saying the output is evidence for an assessment, not a certificate. Done when a corpus scan produces a compliance report with all three benchmarks and the vulnerability section.
 
 ### D4. Signing and verification
 
@@ -62,7 +62,7 @@ Verify signatures on input BOMs with `cdx-verify --public-key` when a key is con
 
 Tracked in [dep-scan#648](https://github.com/owasp-dep-scan/dep-scan/issues/648).
 
-Accept SPDX 2.3 and 3.0 documents as input ([dep-scan#59](https://github.com/owasp-dep-scan/dep-scan/issues/59)). `cdx-convert` converts CycloneDX to SPDX but not the other way, so this needs SPDX import in cdxgen ([cdxgen#4807](https://github.com/cdxgen/cdxgen/issues/4807)), which dep-scan then calls. Write SPDX through `cdx-convert`. Read CycloneDX 2.0 documents behind an option once the schema is ratified and cdxgen decides on its default ([cdxgen#4594](https://github.com/cdxgen/cdxgen/issues/4594)); keep 1.7 as dep-scan's default output (Horizon Next for the 2.0 part). Done when an SPDX 2.3 and an SPDX 3.0 document scan to the same findings as the CycloneDX BOM they were made from.
+Accept SPDX 2.3 and 3.0 documents as input ([dep-scan#59](https://github.com/owasp-dep-scan/dep-scan/issues/59)). `cdx-convert` converts CycloneDX to SPDX but not the other way, so this needs SPDX import in cdxgen ([cdxgen#4807](https://github.com/cdxgen/cdxgen/issues/4807)), which dep-scan then calls. Write SPDX through `cdx-convert`. Keep CycloneDX 1.7 as dep-scan's default output. Reading CycloneDX 2.0 is out of scope for v7, because the schema is not ratified ([cdxgen#4594](https://github.com/cdxgen/cdxgen/issues/4594)). Done when an SPDX 2.3 and an SPDX 3.0 document scan to the same findings as the CycloneDX BOM they were made from.
 
 ## Risks and open questions
 
