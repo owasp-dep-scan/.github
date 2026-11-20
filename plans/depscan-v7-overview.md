@@ -53,14 +53,14 @@ v7 is a clean break from v6: subcommands, vdb 7 and Python 3.11. See [decisions/
 | [depscan-v7-foundation.md](depscan-v7-foundation.md) | [dep-scan#565](https://github.com/owasp-dep-scan/dep-scan/issues/565) | open the v7 line; vdb 7, cdxgen 13.8 and atom 4, blint 4; `depscan doctor` |
 | [depscan-v7-findings.md](depscan-v7-findings.md) | [dep-scan#566](https://github.com/owasp-dep-scan/dep-scan/issues/566) | finding schema, evidence store, scan pipeline and Python API, scan directory, SARIF, VDR writer |
 | [depscan-v7-cli-policy.md](depscan-v7-cli-policy.md) | [dep-scan#567](https://github.com/owasp-dep-scan/dep-scan/issues/567) | subcommands, configuration, policy gates and exit codes, triage decisions, baselines |
-| [depscan-v7-exploitability.md](depscan-v7-exploitability.md) | [dep-scan#568](https://github.com/owasp-dep-scan/dep-scan/issues/568) | exploitability axes and rule table, reach from atom 4, exploit signals, symbol hints, analyzer uplifts, exposure |
-| [depscan-callsites.md](depscan-callsites.md) | [dep-scan#555](https://github.com/owasp-dep-scan/dep-scan/issues/555) | keep atom's callsites slice and score reachability against real labels (already planned) |
+| [depscan-v7-exploitability.md](depscan-v7-exploitability.md) | [dep-scan#568](https://github.com/owasp-dep-scan/dep-scan/issues/568) | exploitability axes and rule table, reach from atom 4, analyzer uplifts, exposure |
+| [depscan-callsites.md](depscan-callsites.md) | [dep-scan#555](https://github.com/owasp-dep-scan/dep-scan/issues/555) | keep atom's callsites slice (done in dep-scan#669); scoring reachability against labels (dep-scan#553) moved to the exploitability epic |
 | [depscan-v7-supply-chain.md](depscan-v7-supply-chain.md) | [dep-scan#569](https://github.com/owasp-dep-scan/dep-scan/issues/569) | audit rule packs, package risk, malware, provenance, CI pipelines, AI supply chain, dependency health and licences |
 | [depscan-v7-memory-safety.md](depscan-v7-memory-safety.md) | [dep-scan#570](https://github.com/owasp-dep-scan/dep-scan/issues/570) | C and C++ memory safety, native code inside packages, unsafe boundaries, Rust/Go/Kotlin findings, binary hardening, correlation with CVEs |
 | [depscan-v7-binaries.md](depscan-v7-binaries.md) | [dep-scan#571](https://github.com/owasp-dep-scan/dep-scan/issues/571) | binaries, installers, drivers, container images, presence corroboration, build diffs, firmware |
 | [blint-depscan-v7.md](blint-depscan-v7.md) | [blint#270](https://github.com/owasp-dep-scan/blint/issues/270) | what blint must fix or add for dep-scan v7 |
 | [blint-uefi-firmware-images.md](blint-uefi-firmware-images.md) | [blint#264](https://github.com/owasp-dep-scan/blint/issues/264) | UEFI firmware images in blint (already planned) |
-| [depscan-v7-mobile.md](depscan-v7-mobile.md) | [dep-scan#572](https://github.com/owasp-dep-scan/dep-scan/issues/572) | Android and iOS apps, reachability inside apps, MASVS mapping |
+| [depscan-v7-mobile.md](depscan-v7-mobile.md) | [dep-scan#572](https://github.com/owasp-dep-scan/dep-scan/issues/572) | Android and iOS apps, reachability inside apps |
 | [depscan-v7-agents.md](depscan-v7-agents.md) | [dep-scan#573](https://github.com/owasp-dep-scan/dep-scan/issues/573) | agent output contract, MCP server, skills and plugins, remediation plans, evals |
 | [depscan-v7-reports-docs.md](depscan-v7-reports-docs.md) | [dep-scan#574](https://github.com/owasp-dep-scan/dep-scan/issues/574) | console, HTML, Markdown and PR summaries, explain and query, CI integrations, documentation |
 | [depscan-v7-compliance.md](depscan-v7-compliance.md) | [dep-scan#575](https://github.com/owasp-dep-scan/dep-scan/issues/575) | VEX, CSAF 2.1, CRA and CISA benchmarks, signing, input and output formats |
@@ -73,14 +73,14 @@ v7 is a clean break from v6: subcommands, vdb 7 and Python 3.11. See [decisions/
 wave 1  foundation D1-D3, D5 ‖ findings D1 ‖ blint D1, D4
 wave 2  foundation D4, D6-D8 ‖ findings D2-D4 ‖ cli-policy D1-D2 ‖ agents D1 ‖ distribution D1
 wave 3  agents D2-D4 ‖ findings D5-D6 ‖ cli-policy D3-D5 ‖ exploitability ‖ supply-chain
-        ‖ memory-safety D1, D3, D5 ‖ binaries D1-D4 ‖ mobile ‖ compliance D1-D4 ‖ callsites (#555)
+        ‖ memory-safety D1, D3, D5 ‖ binaries D1-D4 ‖ mobile ‖ compliance D1-D5 ‖ reachability scoring (#553)
 wave 4  agents D5-D7 ‖ reports-docs ‖ quality D1-D3 ‖ distribution D2-D5 ‖ memory-safety D2, D6, D7
 wave 5  quality D4: release candidates and 7.0.0
-next    memory-safety D4 (Rust, Go, Kotlin findings), binaries D5 (firmware), compliance D5 (CycloneDX 2.0),
+next    memory-safety D4 (Rust, Go, Kotlin findings), binaries D5 (firmware),
         agents D8 (chennai handoff)
 ```
 
-The finding schema (findings D1) and the scan pipeline (findings D3) come first because every later deliverable writes findings into them. The agent output contract (agents D1), the MCP server (agents D2) and the first skills (agents D3, D4) follow the scan directory (findings D4) and the subcommands (cli-policy D1) directly, so agents can use each later deliverable as soon as it lands. Memory-safety D1 needs only the finding schema and `depscan doctor`, so it can start in wave 3 beside them. Work in the same wave can run in parallel. The "next" row depends on upstream releases that are planned but not shipped: memory-safety findings in rusi, golem and kosi (cdxgen/cdxgen-plugins-bin#170, cdxgen/cdxgen#4777), firmware SBOMs in cdxgen 13.9 with romi, the ratified CycloneDX 2.0 schema, and chennai's symbol maps. They stay in the milestone with Horizon set to Next, and the release does not wait for them.
+The finding schema (findings D1) and the scan pipeline (findings D3) come first because every later deliverable writes findings into them. The agent output contract (agents D1), the MCP server (agents D2) and the first skills (agents D3, D4) follow the scan directory (findings D4) and the subcommands (cli-policy D1) directly, so agents can use each later deliverable as soon as it lands. Memory-safety D1 needs only the finding schema and `depscan doctor`, so it can start in wave 3 beside them. Work in the same wave can run in parallel. The "next" row depends on upstream releases that are planned but not shipped: memory-safety findings in rusi, golem and kosi (cdxgen/cdxgen-plugins-bin#170, cdxgen/cdxgen#4777), firmware SBOMs in cdxgen 13.9 with romi, and a maintainer decision on chennai. They are off the v7.0.0 milestone with Status Backlog, and the release does not wait for them.
 
 ## Horizon and priority
 
@@ -110,21 +110,19 @@ An implementation agent takes one issue, reads its plan section, works on a bran
 | blint 4.1.0 with a working default blintdb image | blint epic in [blint-depscan-v7.md](blint-depscan-v7.md) | foundation D7 |
 | `PackageReachability.EdgeIds` that exist in `CallGraph.Edges` | [dosai#129](https://github.com/owasp-dep-scan/dosai/issues/129) | exploitability D5 |
 | a JSON Schema for dosai 5.x reports | [dosai#135](https://github.com/owasp-dep-scan/dosai/issues/135) | exploitability D5 |
-| KEV and EPSS in vdb | [vulnerability-db#135](https://github.com/AppThreat/vulnerability-db/issues/135), [vulnerability-db#309](https://github.com/AppThreat/vulnerability-db/issues/309) | exploitability D3 |
 | flavor and metadata presence in `vdb db status` | [vulnerability-db#308](https://github.com/AppThreat/vulnerability-db/issues/308) | foundation D4 |
 | end-of-life data in vdb | [vulnerability-db#204](https://github.com/AppThreat/vulnerability-db/issues/204) | supply-chain D7 |
-| memory-safety findings with function, purl and fingerprint | [atom#413](https://github.com/AppThreat/atom/issues/413) | memory-safety D1, D7 |
+| memory-safety findings with function, purl and fingerprint | [atom#413](https://github.com/AppThreat/atom/issues/413) | memory-safety D1 |
 | memory-safety in rusi, golem and kosi | [cdxgen-plugins-bin#170](https://github.com/cdxgen/cdxgen-plugins-bin/issues/170), [cdxgen#4777](https://github.com/cdxgen/cdxgen/issues/4777) | memory-safety D4 |
-| kosi's raw report kept for dep-scan | [cdxgen#4806](https://github.com/cdxgen/cdxgen/issues/4806) | exploitability D6 |
 | SPDX input in `cdx-convert` | [cdxgen#4807](https://github.com/cdxgen/cdxgen/issues/4807) | compliance D5 |
 | callsites as the default occurrence source | [cdxgen#4693](https://github.com/cdxgen/cdxgen/issues/4693) | exploitability D2 |
 | firmware SBOMs | [cdxgen#4620](https://github.com/cdxgen/cdxgen/issues/4620), [blint#264](https://github.com/owasp-dep-scan/blint/issues/264) | binaries D5 |
 | R8 mapping for Android bytecode | [atom#360](https://github.com/AppThreat/atom/issues/360) | mobile D4 |
-| C memory safety across allocation styles and library profiles | [chen#328](https://github.com/AppThreat/chen/issues/328), [chen#325](https://github.com/AppThreat/chen/issues/325) | memory-safety D1, D7 |
+| C memory safety across allocation styles and library profiles | [chen#328](https://github.com/AppThreat/chen/issues/328), [chen#325](https://github.com/AppThreat/chen/issues/325) | memory-safety D1 |
 | memory-safety findings in system headers with a correct path | [chen#337](https://github.com/AppThreat/chen/issues/337) | memory-safety D1 |
-| C and C++ front-end contexts and template identity | [chen#335](https://github.com/AppThreat/chen/issues/335), [atom#415](https://github.com/AppThreat/atom/issues/415) | memory-safety D1, D7 |
-| memory-safety precision and recall measured per allocation style | [atom#414](https://github.com/AppThreat/atom/issues/414) | memory-safety D7 |
-| shared memory-safety finding contract and scorer for the plugins | [cdxgen-plugins-bin#171](https://github.com/cdxgen/cdxgen-plugins-bin/issues/171) | memory-safety D4, D7 |
+| C and C++ front-end contexts and template identity | [chen#335](https://github.com/AppThreat/chen/issues/335), [atom#415](https://github.com/AppThreat/atom/issues/415) | memory-safety D1 |
+| memory-safety precision and recall measured per allocation style | [atom#414](https://github.com/AppThreat/atom/issues/414) | quality D2 |
+| shared memory-safety finding contract and scorer for the plugins | [cdxgen-plugins-bin#171](https://github.com/cdxgen/cdxgen-plugins-bin/issues/171) | memory-safety D4 |
 
 ## Keeping the plans current
 
@@ -139,6 +137,7 @@ Plans describe the work, not its progress. Which tasks are done is tracked in th
 
 ## Changes to the plans
 
+- **2026-11-20.** Milestone triage, approved by the maintainer: v7 does not use KEV or EPSS, so the Pressure axis and exploitability D3 are dropped and findings are graded on presence, reach, exposure and barrier. dep-scan keeps no hand-maintained data packs, so the symbol hint pack (exploitability D4) and the MASVS mapping (mobile D5) are dropped, and function-level reach reads `affected_symbols` from vdb. Exploitability D6 merged into D7, memory-safety D7 into D1 and quality D2, compliance D5 lost its CycloneDX 2.0 half, and memory-safety D4, binaries D5 and agents D8 left the milestone for the backlog.
 - **2026-11-19.** cdxgen will not get an MCP server (maintainer decision). The agents plan no longer models `depscan mcp` on one, and the overview no longer lists cdxgen#4656 as an upstream dependency; `depscan mcp` runs cdxgen as a command-line tool.
 - **2026-11-17.** Memory safety: the atom 4 options dep-scan must pass (`--no-build-tools`, `--parse-report`, `--bom-file`, `--memory-api-config`), findings in system headers and template instances, and a table of the chen, atom and plugins issues opened after the plan. Agents: cdxgen's current plugin (hooks, `userConfig`, evals, the `bom-reviewer` agent), shared MCP schemas and tool naming with cdxgen, plugin directory submissions, a `depscan-coverage-loop` skill and the Copilot cloud agent recipe. Order of work: agents D2 to D4 move from wave 4 to wave 3. "Where things stand" updated to 2026-11-17.
 
@@ -146,7 +145,8 @@ Plans describe the work, not its progress. Which tasks are done is tracked in th
 
 - No hosted service, no telemetry and no network access the user did not ask for. Air-gapped CI remains a first-class deployment.
 - No LLM in the scan path. Agents read dep-scan's results; dep-scan never needs a model to produce them.
-- No vulnerability data sources inside dep-scan. Data belongs in vulnerability-db.
+- No vulnerability data sources inside dep-scan, and no hand-maintained data packs (symbol lists, advisory overrides, rule-to-control mappings). Data belongs in vulnerability-db, and such data lives with its producer (vdb, blint, cdxgen).
+- No exploit-likelihood feeds (KEV, EPSS) in grading or policy.
 - No secret scanning in v7, and no static analysis rules written in dep-scan itself. Code-level findings come from the analyzers' own rules (dosai, kosi, golem, rusi, atom and blint), as planned in [depscan-v7-exploitability.md](depscan-v7-exploitability.md) D9.
 
 ## Outcome

@@ -33,6 +33,8 @@ Run `atom memory-safety -l c|cpp --format json` (and SARIF for pass-through) wit
 
 Findings that atom reports inside system or toolchain headers ([chen#337](https://github.com/AppThreat/chen/issues/337)) belong to neither the application nor a component. They are kept with a `toolchain` attribution and left out of the application's counts and gates until chen fixes their paths. A finding in a C++ template instance carries the template's identity, so the copies atom reports for each instantiation become one finding with several locations ([atom#415](https://github.com/AppThreat/atom/issues/415)).
 
+D1 also covers the fixtures from the former D7: a small C and C++ fixture set whose licences allow redistribution, with labelled findings and negative controls, and a test in which any finding on a negative control fails.
+
 ### D2. Native code inside dependencies
 
 Tracked in [dep-scan#614](https://github.com/owasp-dep-scan/dep-scan/issues/614).
@@ -47,7 +49,7 @@ golem, rusi and kosi already report where code leaves memory-safe territory: Go 
 
 ### D4. Rust, Go and Kotlin memory-safety findings (Horizon Next)
 
-Tracked in [dep-scan#616](https://github.com/owasp-dep-scan/dep-scan/issues/616).
+Tracked in [dep-scan#616](https://github.com/owasp-dep-scan/dep-scan/issues/616), which is off the v7.0.0 milestone until its upstream work ships.
 
 Once rusi, golem and kosi produce memory-safety findings ([cdxgen-plugins-bin#170](https://github.com/cdxgen/cdxgen-plugins-bin/issues/170)) and cdxgen maps them to `cdx:<tool>:memorySafety:*` properties and a SARIF file beside the BOM ([cdxgen#4777](https://github.com/cdxgen/cdxgen/issues/4777)), read the raw findings (`memory_safety_findings` from rusi, `memorySafetyFindings` from golem and kosi) through the adapters, using the contract's fingerprints. Done when each plugin's golden findings from plugins-bin appear as dep-scan findings with their rule ids (`RUSI-MS-*`, `GOLEM-MS-*`, `KOSI-MS-*`) and fingerprints.
 
@@ -61,13 +63,11 @@ Report blint's hardening checks as `binary-hardening` findings for every binary 
 
 Tracked in [dep-scan#618](https://github.com/owasp-dep-scan/dep-scan/issues/618).
 
-Connect memory-safety findings to the rest of the report in two directions. When an advisory's CWE is a memory-safety class and a memory-safety finding sits in the affected component (or the affected function when a symbol hint exists), mark the advisory's Presence as corroborated and link the finding. When a memory-safety finding in first-party code is on a path from an entry point (atom reachables and the exposure data from the exploitability plan), raise its grade; when no entry point reaches it, say so. Done when a fixture with a vulnerable vendored function called from a request handler ranks above the same defect in unreachable code, and the explanation shows both the finding and the path.
+Connect memory-safety findings to the rest of the report in two directions. When an advisory's CWE is a memory-safety class and a memory-safety finding sits in the affected component (or the affected function when vdb's `affected_symbols` names it), mark the advisory's Presence as corroborated and link the finding. When a memory-safety finding in first-party code is on a path from an entry point (atom reachables and the exposure data from the exploitability plan), raise its grade; when no entry point reaches it, say so. Done when a fixture with a vulnerable vendored function called from a request handler ranks above the same defect in unreachable code, and the explanation shows both the finding and the path.
 
 ### D7. Fingerprints and corpus gate
 
-Tracked in [dep-scan#619](https://github.com/owasp-dep-scan/dep-scan/issues/619).
-
-atom's JSON has no fingerprint, function or purl yet; [atom#413](https://github.com/AppThreat/atom/issues/413) asks for them, aligned with the plugins contract. Until it ships, dep-scan computes a line-free fingerprint from the rule, relative file, enclosing function (from the flow) and API names. Add a small C and C++ fixture set to dep-scan's tests, with labelled findings and negative controls, whose licences allow redistribution, and run it in CI: any finding on a negative control fails the run, and recall below the recorded floor fails it too. Done when the CI job runs on every pull request that touches the memory-safety code, and a baseline built from fingerprints survives a reformatting commit.
+Merged on 2026-11-20 ([dep-scan#619](https://github.com/owasp-dep-scan/dep-scan/issues/619) closed). The C and C++ fixtures and negative controls moved to D1, and the CI gate to [depscan-v7-quality-release.md](depscan-v7-quality-release.md) D2. The finding fingerprint (`dsf1`, [dep-scan#664](https://github.com/owasp-dep-scan/dep-scan/pull/664)) already leaves out line numbers, so no separate memory-safety fingerprint is needed. [atom#413](https://github.com/AppThreat/atom/issues/413) stays an upstream link for D1.
 
 ## Upstream work that changes this plan
 
@@ -75,14 +75,14 @@ These issues were opened after the plan was written. Each one changes what dep-s
 
 | Upstream | What changes | Affects |
 | --- | --- | --- |
-| [chen#328](https://github.com/AppThreat/chen/issues/328), tasks [chen#320](https://github.com/AppThreat/chen/issues/320) to [chen#327](https://github.com/AppThreat/chen/issues/327) | allocation styles: scope cleanup, regions owned by a pool, reference counting and header-prefixed allocator families, with fewer false allocation-state findings | D1 mapping, D7 floors |
+| [chen#328](https://github.com/AppThreat/chen/issues/328), tasks [chen#320](https://github.com/AppThreat/chen/issues/320) to [chen#327](https://github.com/AppThreat/chen/issues/327) | allocation styles: scope cleanup, regions owned by a pool, reference counting and header-prefixed allocator families, with fewer false allocation-state findings | D1 mapping, quality D2 floors |
 | [chen#325](https://github.com/AppThreat/chen/issues/325) | library profiles selected by the headers a file includes | D1: record the profiles atom chose in the evidence, and let `depscan.toml` name extra ones once atom accepts them |
 | [chen#337](https://github.com/AppThreat/chen/issues/337) | findings reported in system headers with a broken path | D1 attribution |
-| [chen#335](https://github.com/AppThreat/chen/issues/335) | C and C++ front-end contexts: template identity, toolchains and build contexts | D1 (how the compilation database and toolchain reach atom), D7 fingerprint |
-| [atom#415](https://github.com/AppThreat/atom/issues/415) | findings and slice entries grouped by template instance | D1, D7 fingerprint |
-| [atom#414](https://github.com/AppThreat/atom/issues/414) | allocation-style documentation and the final precision and recall measurement | D7 corpus floors start from atom's published numbers |
-| [atom#413](https://github.com/AppThreat/atom/issues/413) | function, purl and a line-free fingerprint per finding, and published schemas | D1, D7: drop dep-scan's own fingerprint once atom's is released |
-| [cdxgen-plugins-bin#171](https://github.com/cdxgen/cdxgen-plugins-bin/issues/171) | the shared finding contract, SARIF golden files and the scorer for rusi, golem and kosi | D4 adapters; D7 reuses the scorer instead of writing a second one |
+| [chen#335](https://github.com/AppThreat/chen/issues/335) | C and C++ front-end contexts: template identity, toolchains and build contexts | D1 (how the compilation database and toolchain reach atom) |
+| [atom#415](https://github.com/AppThreat/atom/issues/415) | findings and slice entries grouped by template instance | D1 |
+| [atom#414](https://github.com/AppThreat/atom/issues/414) | allocation-style documentation and the final precision and recall measurement | quality D2 corpus floors start from atom's published numbers |
+| [atom#413](https://github.com/AppThreat/atom/issues/413) | function, purl and a line-free fingerprint per finding, and published schemas | D1: function and purl on findings once atom releases them |
+| [cdxgen-plugins-bin#171](https://github.com/cdxgen/cdxgen-plugins-bin/issues/171) | the shared finding contract, SARIF golden files and the scorer for rusi, golem and kosi | D4 adapters; quality D2 reuses the scorer instead of writing a second one |
 | [cdxgen-plugins-bin#173](https://github.com/cdxgen/cdxgen-plugins-bin/issues/173), [#179](https://github.com/cdxgen/cdxgen-plugins-bin/issues/179), [#185](https://github.com/cdxgen/cdxgen-plugins-bin/issues/185) | the first memory-safety findings and SARIF from rusi, golem and kosi | D4 can start when any one of them is released |
 
 ## Risks and open questions

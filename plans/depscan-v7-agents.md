@@ -84,9 +84,9 @@ The root `SKILL.md` describes how to review dep-scan's code. Move it to `.agents
 
 ### D8. chennai handoff (Horizon Next)
 
-Tracked in [dep-scan#637](https://github.com/owasp-dep-scan/dep-scan/issues/637).
+Tracked in [dep-scan#637](https://github.com/owasp-dep-scan/dep-scan/issues/637), which is off the v7.0.0 milestone until a maintainer decides on it.
 
-chennai, the interactive analysis tool built on the same analyzers, plans a symbol-map format (`chennai.symbolmap.v1`), a session file that opens a finding with the analysis already done, and an MCP server. Agree the session contract in both repositories first, then add `depscan explain <finding> --chennai`, which writes a session file from the scan directory, and load chennai symbol maps through the loader from [depscan-v7-exploitability.md](depscan-v7-exploitability.md) D4. Done when chennai opens a dep-scan finding without re-running analysis. This needs a maintainer decision on chennai's schedule before it starts.
+chennai, the interactive analysis tool built on the same analyzers, plans a symbol-map format (`chennai.symbolmap.v1`), a session file that opens a finding with the analysis already done, and an MCP server. Agree the session contract in both repositories first, then add `depscan explain <finding> --chennai`, which writes a session file from the scan directory. Done when chennai opens a dep-scan finding without re-running analysis. This needs a maintainer decision on chennai's schedule before it starts.
 
 ## Risks and open questions
 

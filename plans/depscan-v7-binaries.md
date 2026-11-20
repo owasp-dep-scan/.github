@@ -23,7 +23,7 @@ dep-scan's use of blint 4 for binaries, installers, drivers and images, binary e
 
 Tracked in [dep-scan#620](https://github.com/owasp-dep-scan/dep-scan/issues/620).
 
-`depscan scan <binary|installer|directory>` with `--checks binary` runs blint's analysis through its Python API and reports blint's findings and reviews as `binary-hardening`, `supply-chain` or `code` findings by rule, with blint's coverage mapped to not assessed. Known vulnerable Windows drivers become findings with high pressure; packed binaries, unsigned or badly signed binaries and suspicious capabilities are reported by blint's rules ([dep-scan#106](https://github.com/owasp-dep-scan/dep-scan/issues/106) for executables in images). Installers (MSI, MSIX, ClickOnce, nupkg) are unpacked by blint and their contents scanned. Done when a test set of an ELF, a PE driver from the loldrivers list, a Mach-O binary and an MSI produces findings from each with blint's rule ids, and blint's coverage gaps show as not assessed.
+`depscan scan <binary|installer|directory>` with `--checks binary` runs blint's analysis through its Python API and reports blint's findings and reviews as `binary-hardening`, `supply-chain` or `code` findings by rule, with blint's coverage mapped to not assessed. Known vulnerable Windows drivers become findings with high severity; packed binaries, unsigned or badly signed binaries and suspicious capabilities are reported by blint's rules ([dep-scan#106](https://github.com/owasp-dep-scan/dep-scan/issues/106) for executables in images). Installers (MSI, MSIX, ClickOnce, nupkg) are unpacked by blint and their contents scanned. Done when a test set of an ELF, a PE driver from the loldrivers list, a Mach-O binary and an MSI produces findings from each with blint's rule ids, and blint's coverage gaps show as not assessed.
 
 ### D2. Container images and root filesystems
 
@@ -45,7 +45,7 @@ Tracked in [dep-scan#623](https://github.com/owasp-dep-scan/dep-scan/issues/623)
 
 ### D5. Firmware images (Horizon Next)
 
-Tracked in [dep-scan#624](https://github.com/owasp-dep-scan/dep-scan/issues/624).
+Tracked in [dep-scan#624](https://github.com/owasp-dep-scan/dep-scan/issues/624), which is off the v7.0.0 milestone until its upstream work ships.
 
 Read firmware BOMs from cdxgen (`-t firmware`, planned for 13.9.0 with the romi helper, [cdxgen#4620](https://github.com/cdxgen/cdxgen/issues/4620)) and blint's UEFI module components ([blint#264](https://github.com/owasp-dep-scan/blint/issues/264)). Match EDK II modules by the identifiers cdxgen's firmware audit plan defines (`pkg:github/tianocore/edk2@<tag>#<Package>/<Module>` and the EDK II CPE), report cdxgen's firmware rules (network boot stack present, PKfail keys, stale dbx, debug builds, unsigned capsules), and grade them. EDK II advisories are repository security advisories that vdb may not ingest; check and open a vulnerability-db issue if needed. The acceptance case shared with cdxgen is a scan of an Ubuntu `QEMU_EFI.fd` that reports CVE-2026-97631 and the PixieFail CVEs against `NetworkPkg/UefiPxeBcDxe`. Done when that case passes.
 

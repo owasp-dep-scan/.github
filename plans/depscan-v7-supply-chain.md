@@ -39,7 +39,7 @@ Compare dep-scan's registry risk audit with `cdx-audit`'s predictive mode on the
 
 Tracked in [dep-scan#608](https://github.com/owasp-dep-scan/dep-scan/issues/608).
 
-Report malicious packages as `malware` findings with the highest pressure, from vdb's `MAL-` advisories (which vdb 7 matches at every version) and from cdxgen's `package-integrity` rules (install-time scripts, tarballs that differ from the repository, recently changed maintainers where the rules detect it). Check the open false-positive reports for malware advisories ([dep-scan#446](https://github.com/owasp-dep-scan/dep-scan/issues/446), [dep-scan#385](https://github.com/owasp-dep-scan/dep-scan/issues/385)) under vdb 7 and fix, upstream or close each. Done when a fixture with a known malicious version produces a malware finding that fails the default CI policy, and both false-positive reports have an answer.
+Report malicious packages as `malware` findings that fail the default policy, from vdb's `MAL-` advisories (which vdb 7 matches at every version) and from cdxgen's `package-integrity` rules (install-time scripts, tarballs that differ from the repository, recently changed maintainers where the rules detect it). The re-check of the malware false-positive reports ([dep-scan#385](https://github.com/owasp-dep-scan/dep-scan/issues/385), [dep-scan#446](https://github.com/owasp-dep-scan/dep-scan/issues/446)) is tracked in [depscan-v7-quality-release.md](depscan-v7-quality-release.md) D3. Done when a fixture with a known malicious version produces a malware finding that fails the default CI policy.
 
 ### D4. Provenance and integrity
 

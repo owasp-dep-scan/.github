@@ -15,7 +15,7 @@ blint 4 parses APK, APKM, AAB, DEX and IPA files, reviews Dalvik bytecode for dy
 
 ## Scope
 
-Scanning Android and iOS apps as a target kind, the findings and report sections for them, reachability inside the app, and a mapping to the OWASP MASVS. Source projects of mobile apps are scanned like any other source project.
+Scanning Android and iOS apps as a target kind, the findings and report sections for them, and reachability inside the app. Source projects of mobile apps are scanned like any other source project.
 
 ## Deliverables
 
@@ -45,9 +45,7 @@ Use atom's APK callsites and reachables to decide whether a vulnerable SDK or li
 
 ### D5. MASVS mapping
 
-Tracked in [dep-scan#629](https://github.com/owasp-dep-scan/dep-scan/issues/629).
-
-Map each mobile finding to the OWASP MASVS v2 control groups it bears on (storage, crypto, auth, network, platform, code, resilience, privacy), and add a report view grouped by those controls. The mapping lives in a data file with a schema, so it can be reviewed and corrected. Done when every blint mobile rule dep-scan reports has a mapping or an explicit "no MASVS control", and the report view shows the grouping.
+Dropped on 2026-11-20 ([dep-scan#629](https://github.com/owasp-dep-scan/dep-scan/issues/629), closed as not planned): it needed a hand-maintained mapping of blint rules to MASVS controls. If a MASVS view is wanted later, the control id belongs as a field on blint's rules.
 
 ## Risks and open questions
 
