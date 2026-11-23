@@ -67,7 +67,7 @@ cdxgen 13.8 runs atom 4, whose slices changed shape: `usages` has one entry per 
 
 Tracked in [dep-scan#584](https://github.com/owasp-dep-scan/dep-scan/issues/584).
 
-Pin blint 4 (the release planned in [blint-depscan-v7.md](blint-depscan-v7.md) D4). Move `packages/xbom-lib/src/xbom_lib/blint.py` from blint's internal functions to `blint.api` where the API covers the need, and keep `run_sbom_mode` only until blint's API has an SBOM entry point (blint plan D2). Pass the cdxgen BOM to blint as `src_dir_boms`, so blint overlays source evidence. Respect blint's `internal:version_source`, so an assembly version is never matched as a package version. Done when the `gobintests.yml` binaries and an Android APK produce SBOMs and findings with blint 4, and the blintdb lookup works on linux-amd64.
+Pin blint 4.1.0, the release planned in [blint-depscan-v7.md](blint-depscan-v7.md) D4. Move `packages/xbom-lib/src/xbom_lib/blint.py` from blint's internal functions (`run_sbom_mode`, `BlintOptions`, `blintdb_setup`) to `blint.api`, which in 4.1.0 has `analyze`, `analyze_many`, `sbom` and `diff` with typed errors such as `BlintdbUnavailableError` ([blint#272](https://github.com/owasp-dep-scan/blint/issues/272)); a `BlintdbUnavailableError` becomes a not-assessed reason for the blintdb layer. Pass the cdxgen BOM to blint as `src_dir_boms`, so blint overlays source evidence. Respect blint's `internal:version_source`, so an assembly version is never matched as a package version. Done when the `gobintests.yml` binaries and an Android APK produce SBOMs and findings with blint 4, and the blintdb lookup works on linux-amd64.
 
 ### D8. `depscan doctor`
 
@@ -77,8 +77,7 @@ A command that reports, as text or JSON, every tool and data source a scan may u
 
 ## Risks and open questions
 
-- cdxgen 13.8.0 is not released yet. D5 and D6 can be developed against cdxgen master, but cannot merge until the release, because dep-scan pins exact versions.
-- blint 4.0.2 is untagged and its default blintdb image for linux-amd64 does not exist on ghcr. D7 waits for the blint release.
+- blint 4.1.0 still names `ghcr.io/appthreat/blintdb-vcpkg:v4` as the default blintdb image for linux-amd64, which does not exist on ghcr ([blint#271](https://github.com/owasp-dep-scan/blint/issues/271)). D7 can pin 4.1.0, but its blintdb check on linux-amd64 waits for that fix.
 - Shards by default (D3) would cut download size for single-ecosystem scans a great deal, but a mixed project could miss a type. 7.0 keeps it opt-in; a maintainer decides the default for 7.1.
 
 ## Outcome
