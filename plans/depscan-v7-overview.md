@@ -34,16 +34,16 @@ v7 is a clean break from v6: subcommands, vdb 7 and Python 3.11. See [decisions/
 
 ## Where things stand
 
-| Component | dep-scan 6.3.2 uses | Current upstream (2026-11-17) |
+| Component | dep-scan 6.3.2 uses | Current upstream (2026-11-23) |
 | --- | --- | --- |
 | vulnerability-db | 6.7.7 | 7.0.6 |
 | cdxgen | 12.9.x (`@cyclonedx/cdxgen`), atom 2.5.6 | 13.8.0, with atom 4.0.2 and atom-parsetools 2.0.0 |
 | cdxgen-plugins-bin | through cdxgen 12 | 4.3.1 (golem, rusi, kosi, dosai 5.0.0, trustinspector) |
 | atom-tools | ~=0.9.1 | 1.0.5 |
-| blint | ~=3.2.3 | 4.0.1 |
+| blint | ~=3.2.3 | 4.1.0 |
 | dosai | report schema 4.x and 5.x | 5.0.0, report schema 5.1.0 |
-| chen / atom | not called directly | 4.0.1 / 4.0.2, with `atom memory-safety` (37 rules) |
-| edga | not used | 0.2.0 (EDG front end for atom's C and C++ analysis) |
+| chen / atom | not called directly | 4.0.5 / 4.0.3, with `atom memory-safety` (37 rules) and library profiles; atom 4.0.4 is prepared on `main` but not released |
+| edga | not used | 0.4.1 (EDG front end for atom's C and C++ analysis) |
 | Python | >=3.10 (end of life since October 2026) | 3.11 to 3.14 supported |
 
 ## The plans
@@ -106,22 +106,21 @@ An implementation agent takes one issue, reads its plan section, works on a bran
 
 | Need | Upstream issue | Needed by |
 | --- | --- | --- |
-| cdxgen 13.8.0 released with atom 4 | cdxgen 13.8.0 milestone | foundation D5, D6 |
-| blint 4.1.0 with a working default blintdb image | blint epic in [blint-depscan-v7.md](blint-depscan-v7.md) | foundation D7 |
-| `PackageReachability.EdgeIds` that exist in `CallGraph.Edges` | [dosai#129](https://github.com/owasp-dep-scan/dosai/issues/129) | exploitability D5 |
+| a default blintdb image that exists on linux-amd64 (blint 4.1.0 still names a missing image) | [blint#271](https://github.com/owasp-dep-scan/blint/issues/271) | foundation D7 |
+| `PackageReachability.EdgeIds` that exist in `CallGraph.Edges` (fixed on dosai `main`, not yet released) | [dosai#129](https://github.com/owasp-dep-scan/dosai/issues/129) | exploitability D5 |
+| minimal-API flows attributed to the route that holds the sink | [dosai#140](https://github.com/owasp-dep-scan/dosai/issues/140) | exploitability D5 |
 | a JSON Schema for dosai 5.x reports | [dosai#135](https://github.com/owasp-dep-scan/dosai/issues/135) | exploitability D5 |
 | flavor and metadata presence in `vdb db status` | [vulnerability-db#308](https://github.com/AppThreat/vulnerability-db/issues/308) | foundation D4 |
+| metadata searches that refuse instead of answering "no results" on a database without metadata (merged, not yet released) | [vulnerability-db#320](https://github.com/AppThreat/vulnerability-db/pull/320) | exploitability D2 |
 | end-of-life data in vdb | [vulnerability-db#204](https://github.com/AppThreat/vulnerability-db/issues/204) | supply-chain D7 |
-| memory-safety findings with function, purl and fingerprint | [atom#413](https://github.com/AppThreat/atom/issues/413) | memory-safety D1 |
+| memory-safety findings with function, purl and fingerprint, and `--reuse-atom` on any atom (closed, ships in atom 4.0.4) | [atom#413](https://github.com/AppThreat/atom/issues/413), [atom#430](https://github.com/AppThreat/atom/pull/430) | memory-safety D1 |
 | memory-safety in rusi, golem and kosi | [cdxgen-plugins-bin#170](https://github.com/cdxgen/cdxgen-plugins-bin/issues/170), [cdxgen#4777](https://github.com/cdxgen/cdxgen/issues/4777) | memory-safety D4 |
 | SPDX input in `cdx-convert` | [cdxgen#4807](https://github.com/cdxgen/cdxgen/issues/4807) | compliance D5 |
-| callsites as the default occurrence source | [cdxgen#4693](https://github.com/cdxgen/cdxgen/issues/4693) | exploitability D2 |
 | firmware SBOMs | [cdxgen#4620](https://github.com/cdxgen/cdxgen/issues/4620), [blint#264](https://github.com/owasp-dep-scan/blint/issues/264) | binaries D5 |
 | R8 mapping for Android bytecode | [atom#360](https://github.com/AppThreat/atom/issues/360) | mobile D4 |
-| C memory safety across allocation styles and library profiles | [chen#328](https://github.com/AppThreat/chen/issues/328), [chen#325](https://github.com/AppThreat/chen/issues/325) | memory-safety D1 |
-| memory-safety findings in system headers with a correct path | [chen#337](https://github.com/AppThreat/chen/issues/337) | memory-safety D1 |
-| C and C++ front-end contexts and template identity | [chen#335](https://github.com/AppThreat/chen/issues/335), [atom#415](https://github.com/AppThreat/atom/issues/415) | memory-safety D1 |
-| memory-safety precision and recall measured per allocation style | [atom#414](https://github.com/AppThreat/atom/issues/414) | quality D2 |
+| memory-safety findings in system headers dropped by default (closed, ships in atom 4.0.4) | [chen#337](https://github.com/AppThreat/chen/issues/337) | memory-safety D1 |
+| C and C++ front-end contexts and template identity (closed, ships in atom 4.0.4) | [chen#335](https://github.com/AppThreat/chen/issues/335), [atom#415](https://github.com/AppThreat/atom/issues/415) | memory-safety D1 |
+| GitHub Actions lockfile (`actions.lock`) properties and the CI-025 to CI-028 audit rules (merged, ships in cdxgen 13.9.0) | [cdxgen#4733](https://github.com/cdxgen/cdxgen/issues/4733) | supply-chain D5 |
 | shared memory-safety finding contract and scorer for the plugins | [cdxgen-plugins-bin#171](https://github.com/cdxgen/cdxgen-plugins-bin/issues/171) | memory-safety D4 |
 
 ## Keeping the plans current
@@ -137,6 +136,7 @@ Plans describe the work, not its progress. Which tasks are done is tracked in th
 
 ## Changes to the plans
 
+- **2026-11-23.** Weekly review of the changes since 2026-11-17. "Where things stand" moves to blint 4.1.0, atom 4.0.3, chen 4.0.5 and edga 0.4.1. Memory safety: atom 4.0.3 adds `--memory-api-profiles`, and the atom 4.0.4 changes merged on `main` (fingerprint, function and purl per finding with published schemas, `--reuse-atom` on any atom, template instance grouping, per-unit settings in the parse report, `--c-build-contexts`, system-header findings dropped by default) now shape D1, D5 and the risk about building atom twice. Foundation D7 uses blint 4.1.0's public API, and its only remaining blocker is the missing linux-amd64 blintdb image (blint#271). Exploitability D2 reads callsites occurrences from the BOM, which cdxgen 13.8 already writes (cdxgen#4693 closed), checks vdb metadata before reading `affected_symbols`, and notes the JavaScript sink and C header changes in atom 4.0.4; D5 notes that dosai#129 is fixed but unreleased and adds dosai#140; D7 keeps rusi's `expanded_from`. Supply chain D5 reads cdxgen 13.9's `actions.lock` support and rules, and binaries D2 handles cdxgen 13.9's JDK components, which vdb cannot match. The upstream table drops the rows for cdxgen 13.8.0, cdxgen#4693, chen#328, chen#325 and atom#414, which are closed and released, and adds blint#271, dosai#140, vulnerability-db#320 and cdxgen#4733.
 - **2026-11-20.** Milestone triage, approved by the maintainer: v7 does not use KEV or EPSS, so the Pressure axis and exploitability D3 are dropped and findings are graded on presence, reach, exposure and barrier. dep-scan keeps no hand-maintained data packs, so the symbol hint pack (exploitability D4) and the MASVS mapping (mobile D5) are dropped, and function-level reach reads `affected_symbols` from vdb. Exploitability D6 merged into D7, memory-safety D7 into D1 and quality D2, compliance D5 lost its CycloneDX 2.0 half, and memory-safety D4, binaries D5 and agents D8 left the milestone for the backlog.
 - **2026-11-19.** cdxgen will not get an MCP server (maintainer decision). The agents plan no longer models `depscan mcp` on one, and the overview no longer lists cdxgen#4656 as an upstream dependency; `depscan mcp` runs cdxgen as a command-line tool.
 - **2026-11-17.** Memory safety: the atom 4 options dep-scan must pass (`--no-build-tools`, `--parse-report`, `--bom-file`, `--memory-api-config`), findings in system headers and template instances, and a table of the chen, atom and plugins issues opened after the plan. Agents: cdxgen's current plugin (hooks, `userConfig`, evals, the `bom-reviewer` agent), shared MCP schemas and tool naming with cdxgen, plugin directory submissions, a `depscan-coverage-loop` skill and the Copilot cloud agent recipe. Order of work: agents D2 to D4 move from wave 4 to wave 3. "Where things stand" updated to 2026-11-17.
