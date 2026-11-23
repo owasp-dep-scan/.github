@@ -1,0 +1,32 @@
+plans/depscan-v7-overview.md
+  s_8627546b49d61f::t_df892d29d2edff 139
+  s_8627546b49d61f::t_8480e26f71d292 37,43,45-46,109-111,114,116,121-123
+plans/depscan-v7-exploitability.md
+  s_8627546b49d61f::t_dc282bd57b319c 59,69
+  s_8627546b49d61f::t_df892d29d2edff 45
+plans/depscan-v7-foundation.md
+  s_8627546b49d61f::t_dc282bd57b319c 70,80
+plans/depscan-v7-supply-chain.md
+  s_8627546b49d61f::t_dc282bd57b319c 54
+plans/depscan-v7-memory-safety.md
+  s_8627546b49d61f::t_1727a4229f5ba0 24,34-36,62,80-86,93
+  s_8627546b49d61f::t_dc282bd57b319c 22
+plans/depscan-v7-binaries.md
+  s_8627546b49d61f::t_dc282bd57b319c 32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3703e73e7d230aa7f2c8b8f623ee6610135dbfd7",
+  "prompts": {},
+  "sessions": {
+    "s_8627546b49d61f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77b9edcd-593c-4bb0-a4f2-64416421f9ff",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Prabhu Subramanian <prabhu@appthreat.com>"
+    }
+  }
+}
